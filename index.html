@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Mockup do Gestamp Product Hub — gestão centralizada da Planificação Avançada, Qualidade e pedidos SAP.">
+  <title>Gestamp Product Hub</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="#" aria-label="Gestamp Product Hub">
+      <img src="logo_gestamp.png" alt="Gestamp">
+      <div><strong>Product Hub</strong><span>Cerveira</span></div>
+    </a>
+    <nav>
+      <button class="nav-item active" data-view="pa"><span>▤</span> Planificação Avançada</button>
+      <button class="nav-item" data-view="quality"><span>✓</span> Qualidade</button>
+      <button class="nav-item" data-view="sap"><span>⇄</span> Pedidos SAP <em>3</em></button>
+      <button class="nav-item" data-view="master"><span>⚙</span> Dados Mestre</button>
+    </nav>
+    <div class="sidebar-bottom">
+      <div class="user-avatar">AG</div>
+      <div><strong>António Gonçalves</strong><span>Melhoria Contínua</span></div>
+    </div>
+  </aside>
+
+  <main>
+    <header class="topbar">
+      <button class="icon-btn menu" id="menu" aria-label="Abrir menu">☰</button>
+      <div class="global-search">⌕ <input id="globalSearch" placeholder="Pesquisar projeto, referência SAP, cliente ou peça…"></div>
+      <div class="top-actions"><button class="icon-btn">?</button><button class="icon-btn bell">♢<b>3</b></button><div class="user-avatar small">AG</div></div>
+    </header>
+
+    <section id="pa" class="view active">
+      <div class="page-head">
+        <div><span class="eyebrow">CENTRO DE INFORMAÇÃO DO PRODUTO</span><h1>Planificação Avançada</h1><p>Um único registo para criar, consultar e gerir todas as alterações da peça.</p></div>
+        <div class="mode-actions">
+          <button class="btn secondary" data-mode="view">⌕ Consultar peça</button>
+          <button class="btn primary" data-mode="new">＋ Nova peça</button>
+          <button class="btn warning" data-mode="change">↻ Introduzir alteração</button>
+        </div>
+      </div>
+
+      <div class="mode-banner" id="modeBanner"><span class="status-dot green"></span><div><strong>Modo de consulta</strong><small>Versão vigente · dados SAP sincronizados</small></div><button class="close-banner" aria-label="Fechar">×</button></div>
+
+      <section class="product-hero panel">
+        <div class="product-id">
+          <div class="product-visual"><img src="product_3d.png" alt="Visualização 3D fictícia de um bracket automóvel"><span>VISUAL 3D</span><strong>Bracket LH / RH</strong></div>
+          <div><div class="tags"><span class="tag success">Em desenvolvimento</span><span class="tag neutral">PA-2026-001</span></div><h2>CX735 · EBPIA13V00</h2><p>Bracket LH · Ford · Cerveira</p><div class="meta-row"><span><small>Chefe de projeto</small><strong>António Gonçalves</strong></span><span><small>Última atualização</small><strong>02/09/2026 · 12:42</strong></span><span><small>Estado SAP</small><strong class="green-text">● Sincronizado</strong></span></div></div>
+        </div>
+        <div class="completion"><div class="ring"><strong>72%</strong><span>Completa</span></div><div><b>9 campos pendentes</b><small>3 bloqueiam o próximo envio</small><button class="text-btn">Ver pendências →</button></div></div>
+      </section>
+
+      <div class="anchor-bar">
+        <button data-target="general">Geral</button><button data-target="minimum">Vistas mínimas</button><button data-target="planning">Planeamento</button><button data-target="tree">Árvore do Produto</button><button data-target="technical">Ficha Técnica</button><button data-target="docs">Documentação</button><button data-target="history">Histórico</button>
+      </div>
+
+      <section class="pa-section panel" id="general">
+        <div class="section-head"><div><span class="section-no">01</span><h2>Dados gerais e equipa</h2><p>Informação mestre do projeto e responsáveis.</p></div><span class="tag success">Completo</span></div>
+        <div class="form-grid four">
+          <label>Cliente<input value="Ford" readonly></label><label>Projeto<input value="CX735" readonly></label><label>Unidade<input value="Gestamp Cerveira" readonly></label><label>Chefe de projeto<input value="António Gonçalves" readonly></label>
+        </div>
+        <div class="team-row"><span>Equipa do projeto</span><div class="avatars"><i>CP</i><i>QP</i><i>MT</i><i>CO</i><i>LG</i><i>IT</i><b>+8</b></div><button class="btn ghost">Ver equipa e contactos</button></div>
+      </section>
+
+      <section class="pa-section panel" id="minimum">
+        <div class="section-head"><div><span class="section-no rose">02</span><h2>Vistas mínimas</h2><p>Campos obrigatórios para criação inicial dos dados em SAP.</p></div><div class="mini-progress"><strong>12/14</strong><span>campos preenchidos</span></div></div>
+        <div class="notice rose-notice"><strong>2 campos obrigatórios em falta</strong><span>Preencha Código família e Centro de benefício para ativar o envio.</span></div>
+        <div class="form-grid four">
+          <label class="required">Referência cliente *<input value="WZ7B-5019-A-PIA-13"></label><label class="required">Referência SAP *<input value="EBPIA13V00"></label><label class="required">Designação *<input value="CX735 · Bracket LH"></label><label class="required">Veículo *<input value="Ford Bronco"></label>
+          <label class="required">Fábrica cliente *<input value="GMA"></label><label class="required">Unidade de negócio *<input value="02 · Chassis"></label><label class="required invalid">Código família *<input placeholder="Campo obrigatório"></label><label class="required invalid">Centro de benefício *<input placeholder="Campo obrigatório"></label>
+        </div>
+        <div class="section-footer"><span>Os campos rosados são obrigatórios para as vistas mínimas.</span><button class="btn primary" disabled>Enviar vistas mínimas</button></div>
+      </section>
+
+      <section class="pa-section panel" id="planning">
+        <div class="section-head"><div><span class="section-no">03</span><h2>Planeamento das etapas</h2><p>Acompanhamento transversal desde o produto até ao arranque em série.</p></div><span class="tag attention">4 ações a decorrer</span></div>
+        <div class="table-wrap"><table><thead><tr><th>Etapa</th><th>Início</th><th>Fim</th><th>Data real</th><th>Responsável</th><th>Estado</th></tr></thead><tbody>
+          <tr><td><b>01</b> Descrição Produto · Processo</td><td>05/09/2026</td><td>09/09/2026</td><td>08/09/2026</td><td>Cliente / Projetos</td><td><span class="tag success">Concluído</span></td></tr>
+          <tr><td><b>02</b> Revisão do desenho / requisitos</td><td>08/09/2026</td><td>16/09/2026</td><td>—</td><td>Equipa Projeto</td><td><span class="tag info">Em curso</span></td></tr>
+          <tr><td><b>03</b> Materiais</td><td>10/09/2026</td><td>22/09/2026</td><td>—</td><td>Compras</td><td><span class="tag attention">Pendente</span></td></tr>
+          <tr><td><b>04</b> Meios de Produção</td><td>18/09/2026</td><td>14/10/2026</td><td>—</td><td>Projetos</td><td><span class="tag neutral">Planeado</span></td></tr>
+        </tbody></table></div>
+        <button class="text-btn">Ver as 13 etapas →</button>
+      </section>
+
+      <section class="pa-section panel" id="tree">
+        <div class="section-head"><div><span class="section-no">04</span><h2>Árvore do Produto</h2><p>Construída pelo Chefe de Projeto e Compras.</p></div><div><span class="tag info">Em construção</span><button class="btn ghost edit-demo">Editar árvore</button></div></div>
+        <div class="tree-layout">
+          <div class="tree-list"><div class="tree-node root"><i>P</i><div><b>EBPIA13V00</b><span>Produto final · Bracket LH</span></div><em>1 un.</em></div><div class="tree-node level-1"><i>C</i><div><b>COMP-001</b><span>Corpo estampado principal</span></div><em>1 un.</em></div><div class="tree-node level-2"><i>M</i><div><b>WSS-M1A367-A50</b><span>Chapa galvanizada · 1,8 mm</span></div><em>1,82 kg</em></div><div class="tree-node level-1"><i>C</i><div><b>COMP-002</b><span>Porca M8 soldada</span></div><em>2 un.</em></div></div>
+          <div class="tree-summary"><small>Estrutura</small><strong>4 elementos</strong><span>2 referências SAP</span><span>1 fornecedor por definir</span><span>Última alteração por Compras</span></div>
+        </div>
+      </section>
+
+      <section class="pa-section panel" id="technical">
+        <div class="section-head"><div><span class="section-no">05</span><h2>Ficha Técnica</h2><p>Dados de Métodos/Produção com informação herdada da PA e da árvore.</p></div><div><span class="tag attention">68% completa</span><button class="btn ghost edit-demo">Abrir edição</button></div></div>
+        <div class="metric-grid"><article><small>Centro</small><strong>GLP</strong><span>Preenchido pela PA</span></article><article><small>Cadência</small><strong>420 pç/h</strong><span>Métodos/Produção</span></article><article><small>Rota</small><strong>4 operações</strong><span>1 pendente</span></article><article><small>Lista materiais</small><strong>3 componentes</strong><span>Da árvore do produto</span></article></div>
+        <div class="process-flow"><span>10 · Receção</span><b>→</b><span>20 · Estampagem</span><b>→</b><span>40 · Soldadura</span><b>→</b><span>60 · Controlo</span><b>→</b><span>80 · Embalagem</span></div>
+      </section>
+
+      <section class="pa-section panel" id="docs">
+        <div class="section-head"><div><span class="section-no">06</span><h2>Planos e documentação</h2><p>Acesso direto aos documentos vigentes no repositório corporativo.</p></div><button class="btn ghost edit-demo">＋ Adicionar ligação</button></div>
+        <div class="document-grid"><article><i>2D</i><div><b>Plano 2D da peça</b><span>Rev. 04 · Atualizado 28/08/2026</span></div><button class="open-doc">Abrir ↗</button></article><article><i>3D</i><div><b>Modelo 3D</b><span>Rev. 03 · Atualizado 22/08/2026</span></div><button class="open-doc">Abrir ↗</button></article><article><i>PC</i><div><b>Plano de Controlo</b><span>Rev. 06 · Em revisão</span></div><button class="open-doc">Abrir ↗</button></article><article><i>FE</i><div><b>Ficha de Embalagem</b><span>Rev. 02 · Vigente</span></div><button class="open-doc">Abrir ↗</button></article></div>
+      </section>
+
+      <section class="pa-section panel" id="history">
+        <div class="section-head"><div><span class="section-no">07</span><h2>Alterações e sincronização SAP</h2><p>Rastreabilidade integral dos dados enviados para IT.</p></div><button class="btn warning" id="sapChange">Enviar alterações para SAP</button></div>
+        <div class="change-row"><span class="status-dot orange"></span><div><b>ALT-2026-0038 · Alteração de fornecedor</b><small>Árvore do Produto · 2 campos alterados · por Marta Costa</small></div><span class="tag attention">Em preparação</span><time>Hoje, 11:36</time></div>
+        <div class="change-row"><span class="status-dot green"></span><div><b>SAP-2026-0029 · Criação de vistas mínimas</b><small>14 campos enviados · por António Gonçalves</small></div><span class="tag success">Atualizado em SAP</span><time>29/08/2026</time></div>
+      </section>
+    </section>
+
+    <section id="quality" class="view">
+      <div class="page-head"><div><span class="eyebrow">DOSSIER DO PRODUTO</span><h1>Qualidade</h1><p>Informação da peça sem duplicação de dados, com controlo documental centralizado.</p></div><button class="btn primary">＋ Nova fotografia da peça</button></div>
+      <section class="quality-hero panel"><div class="quality-images"><div class="image-card"><img src="product_3d.png" alt="Modelo 3D fictício da peça"><span>IMAGEM 3D</span><b>Modelo inicial</b></div><div class="image-card real"><img src="product_real.png" alt="Fotografia fictícia da peça produzida"><span>FOTO REAL</span><b>Amostra inicial</b></div></div><div class="quality-id"><span class="tag success">Dossier ativo</span><h2>EBPIA13V00 · Bracket LH</h2><p>CX735 · Ford · Responsável: Joana Freitas</p><div class="doc-score"><strong>85%</strong><div><b>Documentação completa</b><span>17 de 20 documentos válidos</span></div></div></div></section>
+      <div class="quality-tabs"><button class="active" data-quality-tab="Geral">Geral</button><button data-quality-tab="Documentação">Documentação <b>3</b></button><button data-quality-tab="Processo">Processo</button><button data-quality-tab="Componentes">Componentes</button><button data-quality-tab="Outros">Outros</button><button data-quality-tab="Árvore do Produto">Árvore do Produto</button></div>
+      <section class="panel quality-general" id="qualityGeneral"><div class="section-head"><div><h2>Identificação da peça</h2><p>Dados populados automaticamente a partir da Planificação Avançada.</p></div><span class="tag info">↻ Sincronizado com a PA</span></div><div class="form-grid four"><label>Referência SAP<input value="EBPIA13V00" readonly></label><label>Referência cliente<input value="WZ7B-5019-A-PIA-13" readonly></label><label>Designação<input value="CX735 · Bracket LH" readonly></label><label>Índice<input value="04" readonly></label><label>Cliente<input value="Ford" readonly></label><label>Tecnologia<input value="Estampagem + Soldadura" readonly></label><label>Projeto<input value="CX735" readonly></label><label>Estado<input value="Em desenvolvimento" readonly></label></div><div class="notice blue-notice">Estes dados têm origem na PA. Para corrigir um valor, utilize <b>Sinalizar correção</b>; alterações com impacto em SAP seguem para IT.</div></section>
+      <div class="quality-grid" id="qualityGrid"><section class="panel"><div class="section-head"><div><h2>Documentos obrigatórios</h2><p>Estado calculado automaticamente.</p></div><button class="text-btn quality-docs-link">Ver todos</button></div><div class="doc-list"><p><i class="done">✓</i><span><b>Plano de Controlo</b><small>Rev. 06 · Aprovado</small></span></p><p><i class="done">✓</i><span><b>AMFE Processo</b><small>Rev. 07 · Aprovado</small></span></p><p><i class="pending">!</i><span><b>Estudo de capacidade</b><small>Pendente de validação</small></span></p><p><i class="missing">×</i><span><b>Relatório dimensional</b><small>Documento em falta</small></span></p></div></section><section class="panel"><div class="section-head"><div><h2>Atividade da Qualidade</h2><p>Últimas atualizações do dossier.</p></div></div><div class="timeline"><p><i></i><b>Fotografia da amostra adicionada</b><span>Joana Freitas · Hoje, 10:18</span></p><p><i></i><b>Plano de Controlo validado</b><span>Rui Martins · Ontem, 16:04</span></p><p><i></i><b>Dossier criado automaticamente</b><span>Product Hub · 29/08/2026</span></p></div></section></div>
+      <section class="panel quality-dynamic" id="qualityDynamic" hidden></section>
+    </section>
+
+    <section id="sap" class="view">
+      <div class="page-head"><div><span class="eyebrow">FILA DE TRABALHO IT</span><h1>Pedidos SAP</h1><p>Todas as criações e alterações submetidas através da Planificação Avançada.</p></div><button class="btn secondary">Exportar lista</button></div>
+      <div class="kpis"><article><span class="status-dot orange"></span><div><small>A aguardar IT</small><strong>3</strong></div></article><article><span class="status-dot blue"></span><div><small>Em tratamento</small><strong>2</strong></div></article><article><span class="status-dot red"></span><div><small>Devolvidos</small><strong>1</strong></div></article><article><span class="status-dot green"></span><div><small>Concluídos este mês</small><strong>18</strong></div></article></div>
+      <section class="panel"><div class="table-toolbar"><div class="global-search compact">⌕ <input placeholder="Pesquisar pedido…"></div><select><option>Todos os estados</option><option>A aguardar IT</option><option>Em tratamento</option></select></div><div class="table-wrap"><table><thead><tr><th>Pedido</th><th>Projeto / Referência</th><th>Origem</th><th>Alterações</th><th>Submetido por</th><th>Estado</th><th></th></tr></thead><tbody><tr><td><b>SAP-2026-0042</b><small>Hoje, 12:02</small></td><td><b>CX735</b><small>EBPIA13V00</small></td><td>Árvore do Produto</td><td>4 campos</td><td>Marta Costa</td><td><span class="tag attention">A aguardar IT</span></td><td><button class="text-btn">Analisar →</button></td></tr><tr><td><b>SAP-2026-0041</b><small>Hoje, 09:47</small></td><td><b>P24004</b><small>EBPZA02V00</small></td><td>Ficha Técnica</td><td>7 campos</td><td>José Lima</td><td><span class="tag info">Em tratamento</span></td><td><button class="text-btn">Abrir →</button></td></tr><tr><td><b>SAP-2026-0039</b><small>01/09/2026</small></td><td><b>QA142</b><small>EBQAA05V00</small></td><td>Vistas mínimas</td><td>14 campos</td><td>Ana Ribeiro</td><td><span class="tag error">Devolvido</span></td><td><button class="text-btn">Ver motivo →</button></td></tr></tbody></table></div></section>
+    </section>
+
+    <section id="master" class="view">
+      <div class="page-head"><div><span class="eyebrow">ADMINISTRAÇÃO</span><h1>Dados Mestre</h1><p>Configuração central de clientes, projetos, pessoas, funções e notificações.</p></div><button class="btn primary">＋ Adicionar registo</button></div>
+      <div class="master-grid"><article class="panel master-card"><i>▦</i><div><h3>Clientes</h3><p>Construtores, unidades e contactos.</p><strong>12 registos</strong></div><button>→</button></article><article class="panel master-card"><i>◇</i><div><h3>Projetos</h3><p>Programas, veículos e estados.</p><strong>42 registos ativos</strong></div><button>→</button></article><article class="panel master-card"><i>♙</i><div><h3>Pessoas</h3><p>Utilizadores, emails e departamentos.</p><strong>86 utilizadores</strong></div><button>→</button></article><article class="panel master-card"><i>⚑</i><div><h3>Funções de projeto</h3><p>As 14 responsabilidades da equipa.</p><strong>14 funções</strong></div><button>→</button></article><article class="panel master-card"><i>✉</i><div><h3>Notificações</h3><p>Listas de distribuição e modelos de email.</p><strong>6 regras ativas</strong></div><button>→</button></article><article class="panel master-card"><i>⌾</i><div><h3>Permissões</h3><p>Perfis e direitos de edição.</p><strong>6 perfis</strong></div><button>→</button></article></div>
+    </section>
+  </main>
+
+  <div class="toast" id="toast" role="status"></div>
+  <div class="modal" id="modal" aria-hidden="true"><div class="modal-card"><button class="modal-close">×</button><span class="eyebrow">DEMONSTRAÇÃO</span><h2 id="modalTitle">Criar nova peça</h2><p id="modalText">Este fluxo inicia uma nova Planificação Avançada.</p><div class="modal-options" id="modalOptions"></div><div class="modal-actions"><button class="btn secondary modal-close-action">Cancelar</button><button class="btn primary modal-confirm">Continuar</button></div></div></div>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,15 +1,10 @@
-# Gestamp Product Hub
+# Gestamp Product Hub 2.0
 
-Mockup navegável com cinco páginas funcionais e dados fictícios.
+Mockup navegável com cinco páginas e dados fictícios.
 
-## Páginas
-- `index.html` Dashboard
-- `produto.html` Ficha de Produto
-- `arvore.html` Árvore do Produto
-- `documentos.html` Gestão Documental
-- `copilot.html` Copilot demonstrativo
+## Antes de publicar
+Coloque o ficheiro `logo_gestamp.png` nesta pasta, ao lado de `index.html`. O nome deve ser exatamente `logo_gestamp.png`.
 
-## Publicação no GitHub Pages
-Carregue o conteúdo desta pasta na raiz do repositório e configure GitHub Pages para publicar a branch `main` a partir de `/ (root)`.
+Publique a branch `main` a partir de `/ (root)` no GitHub Pages.
 
-> Não inclua dados reais, documentos internos, passwords ou informação confidencial neste protótipo público.
+Não publique dados internos, credenciais ou documentos confidenciais.

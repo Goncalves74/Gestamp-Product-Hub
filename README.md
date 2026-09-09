@@ -25,6 +25,7 @@ Mockup navegável para demonstração do fluxo centralizado de informação do p
 - Campos adicionais do sistema Access incluídos no registo e tratamento: ID, quantidades implicada/devolvida, demérito, números interno e de rejeição, lote, defeito/subdefeito, veículo, planta, cargos, repetitividade, nível, piloto, UAP, posto, causa raiz, extra e turno;
 - Menus expansíveis que podem ser novamente contraídos;
 - Produção com os submenus Gama de Parâmetros e Gestão Gama de Parâmetros;
+- Impressão da Gama de Parâmetros em A4 horizontal, com parâmetros, imagem, observações e controlo de versão;
 - Folha compacta de parâmetros de ferramenta/máquina, com imagem, embalagem, instruções e painel lateral de versão;
 - Edição controlada dos parâmetros com incremento automático de versão e envio para validação;
 - Histórico de alterações com pesquisa, autor, data, validador e estado;

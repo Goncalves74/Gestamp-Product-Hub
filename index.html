@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="description" content="Mockup do Gestamp Product Hub — gestão centralizada da Planificação Avançada, Qualidade, Logística, Produção e pedidos SAP.">
   <title>Gestamp Product Hub</title>
-  <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="claims.css">
+  <link rel="stylesheet" href="styles.css?v=7">
+  <link rel="stylesheet" href="claims.css?v=7">
 </head>
 <body>
   <aside class="sidebar" id="sidebar">
@@ -191,14 +191,14 @@
     </section>
 
     <section id="parameters" class="view parameter-view">
-      <div class="page-head compact-head"><div><span class="eyebrow">PRODUÇÃO · MÉTODOS</span><h1>Gama de Parâmetros</h1><p>Parâmetros vigentes da ferramenta e da máquina.</p></div><div class="mode-actions"><button class="btn secondary" id="parameterHistory">Ver histórico</button><button class="btn primary" id="editParameters">Editar parâmetros</button></div></div>
+      <div class="page-head compact-head"><div><span class="eyebrow">PRODUÇÃO · MÉTODOS</span><h1>Gama de Parâmetros</h1><p>Parâmetros vigentes da ferramenta e da máquina.</p></div><div class="mode-actions"><button class="btn secondary" id="printParameters">Imprimir gama</button><button class="btn secondary" id="parameterHistory">Ver histórico</button><button class="btn primary" id="editParameters">Editar parâmetros</button></div></div>
       <div class="parameter-filters panel">
         <div class="process-choice"><label><input type="radio" name="process" checked> Estampagem</label><label><input type="radio" name="process"> Soldadura / Montagem</label><label><input type="radio" name="process"> Linha Fasa</label></div>
         <label>Referência<select><option>E718005V20</option><option>EBPIA13V00</option><option>EBPIA14V00</option></select></label><label>Fase<select><option>20</option><option>30</option><option>40</option></select></label><label>Posto<select><option>P0024</option><option>PR004</option><option>SW012</option></select></label>
       </div>
       <section class="parameter-sheet panel">
         <div class="sheet-main">
-          <header class="sheet-title"><img src="logo_gestamp.png" alt="Gestamp"><div><h2>Gama de Parâmetros Ferramenta / Máquina</h2><span>E718005V20 / E718003V20 · UAP3 · OP 20</span></div></header>
+          <header class="sheet-title"><img src="logo_gestamp.png" alt="Gestamp" width="105" height="37"><div><h2>Gama de Parâmetros Ferramenta / Máquina</h2><span>E718005V20 / E718003V20 · UAP3 · OP 20</span></div></header>
           <div class="equipment-strip"><span><small>Ferramenta</small><b>(CxLxA) 2950 × 1265 × 805 mm</b></span><span><small>Peso</small><b>11 115 kg</b></span><span><small>Máquina</small><b>P0063 · 630 Tn</b></span><span><small>Modelo</small><b>ARISA</b></span><span><small>Mesa inf.</small><b>3000 × 1600</b></span></div>
           <div class="parameter-body">
             <div class="parameter-tables">
@@ -224,7 +224,7 @@
                 <tr><td>Tipo de óleo</td><td colspan="2"><input class="parameter-input" value="RENOFORM EMP172" readonly></td></tr>
               </tbody></table>
             </div>
-            <aside class="part-setup"><img src="product_real.png" alt="Peça de chapa associada à gama"><div><small>Embalagem</small><b>CGENERVCM · 500 peças</b></div><div><small>Em caso de falha anti-erro</small><b>Parar máquina e chamar Qualidade</b></div><div class="setup-pairs"><span><small>Papel</small><b>NÃO</b></span><span><small>Arrumar peças</small><b>SIM</b></span><span><small>N.º operadores</small><b>2</b></span><span><small>Local maquete</small><b>Nave 1 · 4C</b></span></div></aside>
+            <aside class="part-setup"><img src="product_real.png" alt="Peça de chapa associada à gama" width="240" height="126"><div><small>Embalagem</small><b>CGENERVCM · 500 peças</b></div><div><small>Em caso de falha anti-erro</small><b>Parar máquina e chamar Qualidade</b></div><div class="setup-pairs"><span><small>Papel</small><b>NÃO</b></span><span><small>Arrumar peças</small><b>SIM</b></span><span><small>N.º operadores</small><b>2</b></span><span><small>Local maquete</small><b>Nave 1 · 4C</b></span></div></aside>
           </div>
           <footer class="sheet-note"><span><b>Observações:</b> Pressão rolos (20:20) · parâmetros de referência para arranque.</span><span>Departamento: Produção / Métodos</span></footer>
         </div>
@@ -269,6 +269,6 @@
 
   <div class="toast" id="toast" role="status"></div>
   <div class="modal" id="modal" aria-hidden="true"><div class="modal-card"><button class="modal-close">×</button><span class="eyebrow">DEMONSTRAÇÃO</span><h2 id="modalTitle">Criar nova peça</h2><p id="modalText">Este fluxo inicia uma nova Planificação Avançada.</p><div class="modal-options" id="modalOptions"></div><div class="modal-actions"><button class="btn secondary modal-close-action">Cancelar</button><button class="btn primary modal-confirm">Continuar</button></div></div></div>
-  <script src="app.js"></script>
+  <script src="app.js?v=7"></script>
 </body>
 </html>

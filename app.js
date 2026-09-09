@@ -138,6 +138,11 @@ saveParameters.addEventListener('click',()=>{
   setParameterEditMode(false);bindParameterActions();updatePendingParameterCount();showToast(`Versão ${nextVersion} criada e enviada para validação.`);
 });
 document.getElementById('parameterHistory').addEventListener('click',()=>showView('parametersManagement'));
+document.getElementById('printParameters').addEventListener('click',()=>{
+  document.body.classList.add('parameter-print-mode');
+  window.print();
+});
+window.addEventListener('afterprint',()=>document.body.classList.remove('parameter-print-mode'));
 document.getElementById('parameterSearch').addEventListener('input',event=>{const query=event.currentTarget.value.toLowerCase();document.querySelectorAll('#parameterHistoryRows tr').forEach(row=>row.style.display=row.textContent.toLowerCase().includes(query)?'':'none')});
 bindParameterActions();updatePendingParameterCount();
 setComplaintArea('quality');populatePart();

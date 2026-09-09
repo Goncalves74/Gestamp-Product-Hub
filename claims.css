@@ -16,3 +16,144 @@
 .claim-detail > .wide-label {
   margin-top: 16px;
 }
+
+/* Limites defensivos para evitar dimensões naturais durante atualizações em cache. */
+.parameter-sheet .sheet-title > img {
+  display: block !important;
+  width: 105px !important;
+  height: 37px !important;
+  max-width: 105px !important;
+  max-height: 37px !important;
+  object-fit: contain !important;
+  flex: 0 0 105px !important;
+}
+
+.parameter-sheet .part-setup > img {
+  display: block !important;
+  width: 100% !important;
+  height: 126px !important;
+  max-width: 100% !important;
+  max-height: 126px !important;
+  object-fit: cover !important;
+}
+
+@media print {
+  body.parameter-print-mode > main {
+    display: block !important;
+    margin: 0 !important;
+    min-height: 0 !important;
+  }
+
+  body.parameter-print-mode > .print-report,
+  body.parameter-print-mode .sidebar,
+  body.parameter-print-mode .topbar,
+  body.parameter-print-mode main .view,
+  body.parameter-print-mode .parameter-view .compact-head,
+  body.parameter-print-mode .parameter-view .parameter-filters {
+    display: none !important;
+  }
+
+  body.parameter-print-mode main .parameter-view {
+    display: block !important;
+    max-width: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  body.parameter-print-mode .parameter-sheet {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) 175px !important;
+    width: 100% !important;
+    max-width: none !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
+    border: 1px solid #687b89 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    break-inside: avoid;
+  }
+
+  body.parameter-print-mode .sheet-main {
+    padding: 7px !important;
+  }
+
+  body.parameter-print-mode .sheet-title h2 {
+    font-size: 15px !important;
+  }
+
+  body.parameter-print-mode .equipment-strip span {
+    padding: 3px 5px !important;
+  }
+
+  body.parameter-print-mode .parameter-body {
+    grid-template-columns: minmax(0, 1.55fr) 225px !important;
+    gap: 5px !important;
+    margin-top: 5px !important;
+  }
+
+  body.parameter-print-mode .parameter-tables {
+    gap: 4px !important;
+  }
+
+  body.parameter-print-mode .parameter-table td {
+    height: 22px !important;
+    padding: 1px 3px !important;
+  }
+
+  body.parameter-print-mode .parameter-input {
+    border: 0 !important;
+    background: transparent !important;
+    color: #111 !important;
+    padding: 0 !important;
+  }
+
+  body.parameter-print-mode .part-setup {
+    padding: 5px !important;
+    gap: 4px !important;
+  }
+
+  body.parameter-print-mode .parameter-sheet .part-setup > img {
+    height: 108px !important;
+    max-height: 108px !important;
+  }
+
+  body.parameter-print-mode .version-card {
+    display: flex !important;
+    flex-direction: column !important;
+    padding: 10px !important;
+    border-left: 1px solid #9cabb5 !important;
+    border-top: 0 !important;
+  }
+
+  body.parameter-print-mode .version-card dl {
+    display: block !important;
+  }
+
+  body.parameter-print-mode .version-card dl div {
+    padding: 8px 0 !important;
+    border: 0 !important;
+    border-bottom: 1px solid #ccd5db !important;
+  }
+
+  body.parameter-print-mode .version-actions {
+    display: none !important;
+  }
+
+  body.parameter-print-mode .version-number {
+    padding: 12px 0 !important;
+  }
+
+  body.parameter-print-mode .version-number strong {
+    font-size: 42px !important;
+  }
+
+  body.parameter-print-mode * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  @page {
+    size: A4 landscape;
+    margin: 7mm;
+  }
+}

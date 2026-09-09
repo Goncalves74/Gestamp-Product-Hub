@@ -1,5 +1,6 @@
 const views=document.querySelectorAll('.view');
 const navItems=document.querySelectorAll('.nav-item');
+const subNavItems=document.querySelectorAll('.subnav');
 const toast=document.getElementById('toast');
 const modal=document.getElementById('modal');
 const modalTitle=document.getElementById('modalTitle');
@@ -7,8 +8,18 @@ const modalText=document.getElementById('modalText');
 const modalOptions=document.getElementById('modalOptions');
 
 function showToast(message){toast.textContent=message;toast.classList.add('show');setTimeout(()=>toast.classList.remove('show'),2400)}
-function showView(id){views.forEach(v=>v.classList.toggle('active',v.id===id));navItems.forEach(n=>n.classList.toggle('active',n.dataset.view===id));window.scrollTo({top:0,behavior:'smooth'});document.getElementById('sidebar').classList.remove('open')}
-navItems.forEach(item=>item.addEventListener('click',()=>showView(item.dataset.view)));
+let activeDepartment='quality';
+function showView(id){
+  views.forEach(v=>v.classList.toggle('active',v.id===id));
+  const shared=['complaints','claimsManagement'];
+  navItems.forEach(n=>{const departmentActive=(n.classList.contains('quality-main')&&activeDepartment==='quality'&&shared.includes(id))||(n.classList.contains('logistics-main')&&activeDepartment==='logistics'&&shared.includes(id));n.classList.toggle('active',n.dataset.view===id||departmentActive)});
+  subNavItems.forEach(n=>n.classList.toggle('active',n.dataset.view===id&&(!shared.includes(id)||n.dataset.area===activeDepartment)));
+  if(id==='quality'||(shared.includes(id)&&activeDepartment==='quality'))document.querySelector('.quality-nav').classList.add('open');
+  if(id==='logisticsDossier'||(shared.includes(id)&&activeDepartment==='logistics'))document.querySelector('.logistics-nav').classList.add('open');
+  window.scrollTo({top:0,behavior:'smooth'});document.getElementById('sidebar').classList.remove('open')
+}
+navItems.forEach(item=>item.addEventListener('click',()=>{if(item.classList.contains('quality-main'))activeDepartment='quality';if(item.classList.contains('logistics-main'))activeDepartment='logistics';item.closest('.nav-group')?.classList.toggle('open');showView(item.dataset.view)}));
+subNavItems.forEach(item=>item.addEventListener('click',()=>{activeDepartment=item.dataset.area;setComplaintArea(activeDepartment);showView(item.dataset.view)}));
 document.getElementById('menu').addEventListener('click',()=>document.getElementById('sidebar').classList.toggle('open'));
 document.querySelectorAll('[data-target]').forEach(btn=>btn.addEventListener('click',()=>document.getElementById(btn.dataset.target)?.scrollIntoView({behavior:'smooth'})));
 
@@ -47,3 +58,57 @@ function openQualityTab(name){
 }
 qualityTabs.forEach(tab=>tab.addEventListener('click',()=>openQualityTab(tab.dataset.qualityTab)));
 document.querySelector('.quality-docs-link').addEventListener('click',()=>openQualityTab('Documentação'));
+
+const partCatalog={
+  EBPIA13V00:{designation:'Bracket LH',project:'CX735',client:'Ford',clientRef:'CLI-CX735-LH',vehicle:'K9',destinations:['Planta Cliente Norte','Vigo','Valência']},
+  EBPIA14V00:{designation:'Bracket RH',project:'CX735',client:'Ford',clientRef:'CLI-CX735-RH',vehicle:'K9',destinations:['Planta Cliente Norte','Vigo','Valência']},
+  EBPZA02V00:{designation:'Chassis Support',project:'P24004',client:'Renault',clientRef:'CLI-P24004-02',vehicle:'CMP',destinations:['Palência','Sovab']}
+};
+const complaintForm=document.getElementById('complaintForm');
+const referenceSelect=document.getElementById('complaintReference');
+function populatePart(){const part=partCatalog[referenceSelect.value];document.getElementById('complaintDesignation').value=part.designation;document.getElementById('complaintProject').value=part.project;document.getElementById('complaintClientName').value=part.client;document.getElementById('complaintClientRef').value=part.clientRef;document.getElementById('complaintVehicle').value=part.vehicle;document.getElementById('complaintDestination').innerHTML=part.destinations.map(destination=>`<option>${destination}</option>`).join('')}
+referenceSelect.addEventListener('change',populatePart);
+function setComplaintArea(area){
+  activeDepartment=area;
+  const logistics=area==='logistics';
+  document.getElementById('complaintEyebrow').textContent=logistics?'LOGÍSTICA · CLIENTE':'QUALIDADE · CLIENTE';
+  document.getElementById('complaintTitle').textContent=logistics?'Registo de Reclamações Logísticas':'Registo de Reclamações';
+  document.getElementById('complaintSubtitle').textContent=logistics?'Registe ocorrências de transporte, embalagem, identificação e entrega.':'Registe a informação inicial recebida do cliente e encaminhe a reclamação para análise.';
+  document.getElementById('complaintNumber').textContent=logistics?'RCL-2026-0041':'RCQ-2026-0084';
+  document.getElementById('complaintOwner').textContent=logistics?'Carla Mendes':'Joana Freitas';
+  document.getElementById('managementEyebrow').textContent=logistics?'LOGÍSTICA · ACOMPANHAMENTO':'QUALIDADE · ACOMPANHAMENTO';
+  document.getElementById('managementTitle').textContent=logistics?'Gestão de Reclamações Logísticas':'Gestão de Reclamações';
+  if(logistics){document.getElementById('claimOrigin').innerHTML='<option>Transporte</option><option>Embalagem</option><option>Expedição</option><option>Armazém</option><option>Fornecedor</option>';document.getElementById('defectCode').innerHTML='<option>Embalagem</option><option>Identificação</option><option>Quantidade</option><option>Transporte</option><option>Humidade</option>';document.getElementById('defectFamily').innerHTML='<option>Contentor incorreto</option><option>Etiqueta incorreta</option><option>Peças danificadas</option><option>Atraso de entrega</option><option>Contaminação/água</option>'}
+  else{document.getElementById('claimOrigin').innerHTML='<option>Produção</option><option>Logística</option><option>Fornecedor</option><option>Engenharia</option>';document.getElementById('defectCode').innerHTML='<option>Geometria</option><option>Soldadura</option><option>Superfície</option><option>Identificação</option>';document.getElementById('defectFamily').innerHTML='<option>Desvios de geometria</option><option>Componente em falta</option><option>Dano superficial</option><option>Erro de processo</option>'}
+  renderDepartmentClaims();
+}
+complaintForm.addEventListener('submit',event=>{event.preventDefault();showToast(`Reclamação ${activeDepartment==='logistics'?'logística':'de qualidade'} guardada e enviada para gestão.`);setTimeout(()=>showView('claimsManagement'),700)});
+document.getElementById('saveComplaint').addEventListener('click',()=>complaintForm.requestSubmit());
+document.getElementById('clearComplaint').addEventListener('click',()=>{complaintForm.reset();populatePart();showToast('Formulário limpo.')});
+document.getElementById('printChecklist').addEventListener('click',()=>showToast('Check-list preparada para impressão.'));
+document.getElementById('newClaimButton').addEventListener('click',()=>showView('complaints'));
+
+const claimSearch=document.getElementById('claimSearch'),claimClient=document.getElementById('claimClient'),claimStatus=document.getElementById('claimStatus'),claimDateFrom=document.getElementById('claimDateFrom'),claimDateTo=document.getElementById('claimDateTo');
+const claimsBody=document.querySelector('#claimsTable tbody');
+const qualityRowsHtml=claimsBody.innerHTML;
+const logisticsRowsHtml=`
+  <tr data-client="Ford" data-status="Em tratamento" data-date="2026-09-08"><td><b>Ford</b><small>Valência</small></td><td><b>EBPIA13V00</b><small>Carla Mendes</small></td><td>K9</td><td>08/09/2026</td><td>LOG-2041</td><td>A</td><td>0</td><td>Contentores recebidos sem etiqueta</td><td><span class="tag error">Sim</span></td><td><span class="tag attention">Em tratamento</span></td><td>96</td><td><b>1 120 €</b></td><td>Pendente</td><td><button class="text-btn manage-claim">Gerir →</button></td></tr>
+  <tr data-client="Stellantis" data-status="Aguardando dados" data-date="2026-09-05"><td><b>Stellantis</b><small>Vigo</small></td><td><b>EBPIA14V00</b><small>Pedro Alves</small></td><td>K9</td><td>05/09/2026</td><td>LOG-2038</td><td>B</td><td>0</td><td>Embalagem danificada no transporte</td><td><span class="tag neutral">Não</span></td><td><span class="tag info">Aguardando dados</span></td><td>48</td><td><b>760 €</b></td><td>ND-260921</td><td><button class="text-btn manage-claim">Gerir →</button></td></tr>
+  <tr data-client="Renault" data-status="Encerrada" data-date="2026-09-02"><td><b>Renault</b><small>Sovab</small></td><td><b>EBPZA02V00</b><small>Carla Mendes</small></td><td>CMP</td><td>02/09/2026</td><td>LOG-2030</td><td>0</td><td>0</td><td>Quantidade expedida incorreta</td><td><span class="tag neutral">Não</span></td><td><span class="tag success">Encerrada</span></td><td>12</td><td><b>340 €</b></td><td>FT-260901</td><td><button class="text-btn manage-claim">Consultar →</button></td></tr>`;
+let claimRows=[];
+function openClaimDetail(){const detail=document.getElementById('claimDetail');detail.hidden=false;detail.scrollIntoView({behavior:'smooth'})}
+function renderDepartmentClaims(){claimsBody.innerHTML=activeDepartment==='logistics'?logisticsRowsHtml:qualityRowsHtml;claimRows=[...claimsBody.querySelectorAll('tr')];document.querySelectorAll('.manage-claim').forEach(button=>button.addEventListener('click',openClaimDetail));filterClaims()}
+function formatDate(date){if(!date)return'—';const [year,month,day]=date.split('-');return`${day}/${month}/${year}`}
+function filterClaims(){const query=claimSearch.value.trim().toLowerCase(),from=claimDateFrom.value,to=claimDateTo.value;let visible=0;claimRows.forEach(row=>{const date=row.dataset.date;const show=(!query||row.textContent.toLowerCase().includes(query))&&(!claimClient.value||row.dataset.client===claimClient.value)&&(!claimStatus.value||row.dataset.status===claimStatus.value)&&(!from||date>=from)&&(!to||date<=to);row.style.display=show?'':'none';if(show)visible++});document.getElementById('visibleClaims').textContent=visible;document.getElementById('selectedPeriod').textContent=`${formatDate(from)} a ${formatDate(to)}`}
+[claimSearch,claimClient,claimStatus,claimDateFrom,claimDateTo].forEach(control=>control.addEventListener(control.tagName==='SELECT'?'change':'input',filterClaims));
+document.getElementById('closeClaimDetail').addEventListener('click',()=>document.getElementById('claimDetail').hidden=true);
+document.getElementById('saveClaimManagement').addEventListener('click',()=>showToast('Acompanhamento, quantidades e custos guardados.'));
+document.getElementById('printClaimsReport').addEventListener('click',()=>{
+  const visibleRows=claimRows.filter(row=>row.style.display!=='none');
+  document.getElementById('reportTitle').textContent=activeDepartment==='logistics'?'LISTA DE RECLAMAÇÕES LOGÍSTICAS':'LISTA DE REJEIÇÕES DE CLIENTES';
+  document.getElementById('reportPeriod').textContent=`Período: ${formatDate(claimDateFrom.value)} a ${formatDate(claimDateTo.value)}`;
+  document.getElementById('reportGeneratedAt').textContent=new Date().toLocaleDateString('pt-PT');
+  document.getElementById('reportRows').innerHTML=visibleRows.map((row,index)=>{const c=row.cells;return`<tr><td>${c[0].innerHTML}</td><td>${c[1].innerHTML}</td><td><img src="${index%2?'product_real.png':'product_3d.png'}" alt=""></td><td>${c[2].textContent}</td><td>${[120,90,60,300][index]||0}</td><td>${c[6].textContent}</td><td>${[240,1500,605,3385][index]||0}</td><td>${c[3].textContent}</td><td>${c[4].textContent}<br><b>${c[8].textContent==='Sim'?'RECLAMAÇÃO':'ALERTA'}</b></td><td>${c[5].textContent}</td><td>${index?0:c[11].textContent}</td><td>${c[11].textContent}</td><td>${c[1].querySelector('b').textContent}</td><td>${c[7].textContent}</td></tr>`}).join('');
+  window.print();
+});
+setComplaintArea('quality');populatePart();

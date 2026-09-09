@@ -12,14 +12,12 @@ let activeDepartment='quality';
 function showView(id){
   views.forEach(v=>v.classList.toggle('active',v.id===id));
   const shared=['complaints','claimsManagement'];
-  navItems.forEach(n=>{const departmentActive=(n.classList.contains('quality-main')&&activeDepartment==='quality'&&shared.includes(id))||(n.classList.contains('logistics-main')&&activeDepartment==='logistics'&&shared.includes(id));n.classList.toggle('active',n.dataset.view===id||departmentActive)});
+  navItems.forEach(n=>{const departmentActive=(n.classList.contains('quality-main')&&activeDepartment==='quality'&&shared.includes(id))||(n.classList.contains('logistics-main')&&activeDepartment==='logistics'&&shared.includes(id))||(n.classList.contains('production-main')&&id==='parametersManagement');n.classList.toggle('active',n.dataset.view===id||departmentActive)});
   subNavItems.forEach(n=>n.classList.toggle('active',n.dataset.view===id&&(!shared.includes(id)||n.dataset.area===activeDepartment)));
-  if(id==='quality'||(shared.includes(id)&&activeDepartment==='quality'))document.querySelector('.quality-nav').classList.add('open');
-  if(id==='logisticsDossier'||(shared.includes(id)&&activeDepartment==='logistics'))document.querySelector('.logistics-nav').classList.add('open');
   window.scrollTo({top:0,behavior:'smooth'});document.getElementById('sidebar').classList.remove('open')
 }
 navItems.forEach(item=>item.addEventListener('click',()=>{if(item.classList.contains('quality-main'))activeDepartment='quality';if(item.classList.contains('logistics-main'))activeDepartment='logistics';item.closest('.nav-group')?.classList.toggle('open');showView(item.dataset.view)}));
-subNavItems.forEach(item=>item.addEventListener('click',()=>{activeDepartment=item.dataset.area;setComplaintArea(activeDepartment);showView(item.dataset.view)}));
+subNavItems.forEach(item=>item.addEventListener('click',()=>{if(item.dataset.area==='quality'||item.dataset.area==='logistics'){activeDepartment=item.dataset.area;setComplaintArea(activeDepartment)}item.closest('.nav-group')?.classList.add('open');showView(item.dataset.view)}));
 document.getElementById('menu').addEventListener('click',()=>document.getElementById('sidebar').classList.toggle('open'));
 document.querySelectorAll('[data-target]').forEach(btn=>btn.addEventListener('click',()=>document.getElementById(btn.dataset.target)?.scrollIntoView({behavior:'smooth'})));
 
@@ -111,4 +109,35 @@ document.getElementById('printClaimsReport').addEventListener('click',()=>{
   document.getElementById('reportRows').innerHTML=visibleRows.map((row,index)=>{const c=row.cells;return`<tr><td>${c[0].innerHTML}</td><td>${c[1].innerHTML}</td><td><img src="${index%2?'product_real.png':'product_3d.png'}" alt=""></td><td>${c[2].textContent}</td><td>${[120,90,60,300][index]||0}</td><td>${c[6].textContent}</td><td>${[240,1500,605,3385][index]||0}</td><td>${c[3].textContent}</td><td>${c[4].textContent}<br><b>${c[8].textContent==='Sim'?'RECLAMAÇÃO':'ALERTA'}</b></td><td>${c[5].textContent}</td><td>${index?0:c[11].textContent}</td><td>${c[11].textContent}</td><td>${c[1].querySelector('b').textContent}</td><td>${c[7].textContent}</td></tr>`}).join('');
   window.print();
 });
+
+const parameterInputs=[...document.querySelectorAll('.parameter-input')];
+const editParameters=document.getElementById('editParameters');
+const saveParameters=document.getElementById('saveParameters');
+const cancelParameters=document.getElementById('cancelParameters');
+const parameterVersion=document.getElementById('parameterVersion');
+const parameterStatus=document.getElementById('parameterStatus');
+let parameterSnapshot=[];
+function setParameterEditMode(editing){
+  parameterInputs.forEach(input=>input.readOnly=!editing);
+  saveParameters.hidden=!editing;cancelParameters.hidden=!editing;editParameters.hidden=editing;
+}
+editParameters.addEventListener('click',()=>{parameterSnapshot=parameterInputs.map(input=>input.value);setParameterEditMode(true);parameterInputs[0].focus();showToast('Modo de edição ativo. Os campos alteráveis estão destacados.');});
+cancelParameters.addEventListener('click',()=>{parameterInputs.forEach((input,index)=>input.value=parameterSnapshot[index]);setParameterEditMode(false);showToast('Edição cancelada sem criar nova versão.');});
+function updatePendingParameterCount(){document.getElementById('pendingParameterCount').textContent=document.querySelectorAll('#parameterHistoryRows .tag.attention').length}
+function bindParameterActions(){
+  document.querySelectorAll('.validate-parameter').forEach(button=>button.onclick=()=>{const row=button.closest('tr');row.querySelector('.tag').className='tag success';row.querySelector('.tag').textContent='Validada';button.outerHTML='<button class="text-btn view-parameter">Consultar →</button>';updatePendingParameterCount();showToast('Alteração validada por Rui Martins. A nova versão está vigente.');});
+  document.querySelectorAll('.view-parameter').forEach(button=>button.onclick=()=>showView('parameters'));
+}
+saveParameters.addEventListener('click',()=>{
+  const changed=parameterInputs.reduce((total,input,index)=>total+(input.value!==parameterSnapshot[index]?1:0),0);
+  if(!changed){showToast('Não existem parâmetros alterados.');return}
+  const nextVersion=Number(parameterVersion.textContent)+1;
+  parameterVersion.textContent=nextVersion;parameterStatus.textContent='A aguardar validação';parameterStatus.className='tag attention';
+  document.getElementById('parameterDate').textContent='09/09/2026 · 14:35';document.getElementById('parameterModifiedBy').textContent='António Gonçalves';document.getElementById('parameterValidatedBy').textContent='Pendente';
+  document.getElementById('parameterHistoryRows').insertAdjacentHTML('afterbegin',`<tr><td><b>E718005V20</b><small>Estampagem · OP20</small></td><td>P0063 · P0024</td><td><b>v${nextVersion}</b></td><td>${changed} parâmetro${changed>1?'s':''} alterado${changed>1?'s':''}</td><td>António Gonçalves</td><td>09/09/2026 · 14:35</td><td>Rui Martins</td><td><span class="tag attention">A aguardar validação</span></td><td><button class="btn primary small validate-parameter">Validar</button></td></tr>`);
+  setParameterEditMode(false);bindParameterActions();updatePendingParameterCount();showToast(`Versão ${nextVersion} criada e enviada para validação.`);
+});
+document.getElementById('parameterHistory').addEventListener('click',()=>showView('parametersManagement'));
+document.getElementById('parameterSearch').addEventListener('input',event=>{const query=event.currentTarget.value.toLowerCase();document.querySelectorAll('#parameterHistoryRows tr').forEach(row=>row.style.display=row.textContent.toLowerCase().includes(query)?'':'none')});
+bindParameterActions();updatePendingParameterCount();
 setComplaintArea('quality');populatePart();

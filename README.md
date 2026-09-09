@@ -23,6 +23,12 @@ Mockup navegável para demonstração do fluxo centralizado de informação do p
 - Filtros de reclamações por cliente, estado, pesquisa e intervalo de datas;
 - Relatório de reclamações preparado para impressão em A4 horizontal;
 - Campos adicionais do sistema Access incluídos no registo e tratamento: ID, quantidades implicada/devolvida, demérito, números interno e de rejeição, lote, defeito/subdefeito, veículo, planta, cargos, repetitividade, nível, piloto, UAP, posto, causa raiz, extra e turno;
+- Menus expansíveis que podem ser novamente contraídos;
+- Produção com os submenus Gama de Parâmetros e Gestão Gama de Parâmetros;
+- Folha compacta de parâmetros de ferramenta/máquina, com imagem, embalagem, instruções e painel lateral de versão;
+- Edição controlada dos parâmetros com incremento automático de versão e envio para validação;
+- Histórico de alterações com pesquisa, autor, data, validador e estado;
+- Responsável de validação demonstrativo configurado em Dados Mestre > Permissões;
 - Pedidos SAP e Dados Mestre.
 
 Abra `index.html` num navegador ou publique a pasta pela raiz no GitHub Pages.

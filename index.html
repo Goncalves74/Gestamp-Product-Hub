@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="Mockup do Gestamp Product Hub — gestão centralizada da Planificação Avançada, Qualidade e pedidos SAP.">
+  <meta name="description" content="Mockup do Gestamp Product Hub — gestão centralizada da Planificação Avançada, Qualidade, Logística, Produção e pedidos SAP.">
   <title>Gestamp Product Hub</title>
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="claims.css">
@@ -30,6 +30,13 @@
           <button class="subnav" data-view="logisticsDossier" data-area="logistics">Dossier Logístico</button>
           <button class="subnav" data-view="complaints" data-area="logistics">Reclamações Logísticas</button>
           <button class="subnav" data-view="claimsManagement" data-area="logistics">Gestão de Reclamações</button>
+        </div>
+      </div>
+      <div class="nav-group production-nav">
+        <button class="nav-item production-main" data-view="parameters"><span>▦</span> Produção <i>⌄</i></button>
+        <div class="submenu">
+          <button class="subnav" data-view="parameters" data-area="production">Gama de Parâmetros</button>
+          <button class="subnav" data-view="parametersManagement" data-area="production">Gestão Gama de Parâmetros</button>
         </div>
       </div>
       <button class="nav-item" data-view="sap"><span>⇄</span> Pedidos SAP <em>3</em></button>
@@ -183,6 +190,65 @@
       </section>
     </section>
 
+    <section id="parameters" class="view parameter-view">
+      <div class="page-head compact-head"><div><span class="eyebrow">PRODUÇÃO · MÉTODOS</span><h1>Gama de Parâmetros</h1><p>Parâmetros vigentes da ferramenta e da máquina.</p></div><div class="mode-actions"><button class="btn secondary" id="parameterHistory">Ver histórico</button><button class="btn primary" id="editParameters">Editar parâmetros</button></div></div>
+      <div class="parameter-filters panel">
+        <div class="process-choice"><label><input type="radio" name="process" checked> Estampagem</label><label><input type="radio" name="process"> Soldadura / Montagem</label><label><input type="radio" name="process"> Linha Fasa</label></div>
+        <label>Referência<select><option>E718005V20</option><option>EBPIA13V00</option><option>EBPIA14V00</option></select></label><label>Fase<select><option>20</option><option>30</option><option>40</option></select></label><label>Posto<select><option>P0024</option><option>PR004</option><option>SW012</option></select></label>
+      </div>
+      <section class="parameter-sheet panel">
+        <div class="sheet-main">
+          <header class="sheet-title"><img src="logo_gestamp.png" alt="Gestamp"><div><h2>Gama de Parâmetros Ferramenta / Máquina</h2><span>E718005V20 / E718003V20 · UAP3 · OP 20</span></div></header>
+          <div class="equipment-strip"><span><small>Ferramenta</small><b>(CxLxA) 2950 × 1265 × 805 mm</b></span><span><small>Peso</small><b>11 115 kg</b></span><span><small>Máquina</small><b>P0063 · 630 Tn</b></span><span><small>Modelo</small><b>ARISA</b></span><span><small>Mesa inf.</small><b>3000 × 1600</b></span></div>
+          <div class="parameter-body">
+            <div class="parameter-tables">
+              <table class="parameter-table"><thead><tr><th>Parâmetro</th><th>Un.</th><th>Mín.</th><th>Inicial</th><th>Máx.</th></tr></thead><tbody>
+                <tr><td>Posição da ferramenta</td><td>—</td><td><input class="parameter-input" value="Centrado" readonly></td><td>—</td><td><input class="parameter-input" value="Centrado" readonly></td></tr>
+                <tr><td>Curso</td><td>mm</td><td><input class="parameter-input" value="292" readonly></td><td><input class="parameter-input" value="292" readonly></td><td>—</td></tr>
+                <tr><td>Velocidade</td><td>golpes/min</td><td><input class="parameter-input" value="15" readonly></td><td><input class="parameter-input" value="15" readonly></td><td><input class="parameter-input" value="20" readonly></td></tr>
+                <tr><td>Regulação carro trabalho</td><td>mm</td><td><input class="parameter-input" value="794" readonly></td><td>—</td><td><input class="parameter-input" value="799" readonly></td></tr>
+                <tr><td>Regulação carro montar</td><td>mm</td><td><input class="parameter-input" value="850" readonly></td><td>—</td><td><input class="parameter-input" value="860" readonly></td></tr>
+                <tr><td>Passo alimentador</td><td>mm</td><td>—</td><td><input class="parameter-input" value="260" readonly></td><td>—</td></tr>
+                <tr><td>Velocidade alimentador</td><td>%</td><td><input class="parameter-input" value="20" readonly></td><td>—</td><td><input class="parameter-input" value="30" readonly></td></tr>
+                <tr><td>Regulação ar equilibrador</td><td>bar</td><td><input class="parameter-input" value="4" readonly></td><td>—</td><td><input class="parameter-input" value="6" readonly></td></tr>
+                <tr><td>Segurança sobrecarga</td><td>bar</td><td>—</td><td><input class="parameter-input" value="Não mexer" readonly></td><td>—</td></tr>
+              </tbody></table>
+              <table class="parameter-table sequences"><thead><tr><th>Sequência</th><th>V. inicial</th><th>V. final</th></tr></thead><tbody>
+                <tr><td>Alimentação (±30°)</td><td><input class="parameter-input" value="315" readonly></td><td><input class="parameter-input" value="50" readonly></td></tr>
+                <tr><td>Pilotagem subir (±30°)</td><td><input class="parameter-input" value="75" readonly></td><td>—</td></tr>
+                <tr><td>Pilotagem baixar (±30°)</td><td>—</td><td><input class="parameter-input" value="260" readonly></td></tr>
+                <tr><td>Seq. 1 · Alimentador chapa</td><td><input class="parameter-input" value="50" readonly></td><td><input class="parameter-input" value="60" readonly></td></tr>
+                <tr><td>Seq. 3 · Alimentador chapa</td><td><input class="parameter-input" value="50" readonly></td><td><input class="parameter-input" value="60" readonly></td></tr>
+                <tr><td>Soprador</td><td><input class="parameter-input" value="0" readonly></td><td><input class="parameter-input" value="359" readonly></td></tr>
+                <tr><td>Lubrificação da banda</td><td><input class="parameter-input" value="5 golpes" readonly></td><td><input class="parameter-input" value="260° / 5 s" readonly></td></tr>
+                <tr><td>Tipo de óleo</td><td colspan="2"><input class="parameter-input" value="RENOFORM EMP172" readonly></td></tr>
+              </tbody></table>
+            </div>
+            <aside class="part-setup"><img src="product_real.png" alt="Peça de chapa associada à gama"><div><small>Embalagem</small><b>CGENERVCM · 500 peças</b></div><div><small>Em caso de falha anti-erro</small><b>Parar máquina e chamar Qualidade</b></div><div class="setup-pairs"><span><small>Papel</small><b>NÃO</b></span><span><small>Arrumar peças</small><b>SIM</b></span><span><small>N.º operadores</small><b>2</b></span><span><small>Local maquete</small><b>Nave 1 · 4C</b></span></div></aside>
+          </div>
+          <footer class="sheet-note"><span><b>Observações:</b> Pressão rolos (20:20) · parâmetros de referência para arranque.</span><span>Departamento: Produção / Métodos</span></footer>
+        </div>
+        <aside class="version-card">
+          <span class="tag success" id="parameterStatus">Versão validada</span><div class="version-number"><small>VERSÃO</small><strong id="parameterVersion">4</strong></div>
+          <dl><div><dt>Última modificação</dt><dd id="parameterDate">03/09/2026 · 14:22</dd></div><div><dt>Modificado por</dt><dd id="parameterModifiedBy">José Lima</dd></div><div><dt>Validado por</dt><dd id="parameterValidatedBy">Rui Martins</dd></div><div><dt>Responsável validação</dt><dd>Rui Martins<br><small>Definido em Dados Mestre</small></dd></div></dl>
+          <div class="version-actions"><button class="btn primary" id="saveParameters" hidden>Guardar nova versão</button><button class="btn secondary" id="cancelParameters" hidden>Cancelar</button></div>
+        </aside>
+      </section>
+    </section>
+
+    <section id="parametersManagement" class="view">
+      <div class="page-head"><div><span class="eyebrow">PRODUÇÃO · CONTROLO DE ALTERAÇÕES</span><h1>Gestão Gama de Parâmetros</h1><p>Histórico, comparação e validação das alterações efetuadas nas gamas.</p></div><button class="btn secondary">Exportar histórico</button></div>
+      <div class="kpis"><article><span class="status-dot orange"></span><div><small>A aguardar validação</small><strong id="pendingParameterCount">2</strong></div></article><article><span class="status-dot green"></span><div><small>Validadas este mês</small><strong>18</strong></div></article><article><span class="status-dot blue"></span><div><small>Gamas ativas</small><strong>124</strong></div></article><article><span class="status-dot red"></span><div><small>Rejeitadas</small><strong>1</strong></div></article></div>
+      <section class="panel parameter-management"><div class="claims-filters"><div class="global-search compact">⌕ <input id="parameterSearch" placeholder="Pesquisar referência, máquina ou autor…"></div><select><option>Todos os estados</option><option>A aguardar validação</option><option>Validada</option><option>Rejeitada</option></select><input type="date" value="2026-09-01" aria-label="Data inicial"><input type="date" value="2026-09-30" aria-label="Data final"></div>
+        <div class="table-wrap"><table><thead><tr><th>Referência</th><th>Máquina / Posto</th><th>Versão</th><th>Alteração</th><th>Modificado por</th><th>Data</th><th>Validador</th><th>Estado</th><th></th></tr></thead><tbody id="parameterHistoryRows">
+          <tr><td><b>E718005V20</b><small>Estampagem · OP20</small></td><td>P0063 · P0024</td><td><b>v4</b></td><td>Velocidade e pressão</td><td>José Lima</td><td>03/09/2026 · 14:22</td><td>Rui Martins</td><td><span class="tag success">Validada</span></td><td><button class="text-btn view-parameter">Consultar →</button></td></tr>
+          <tr><td><b>EBPIA13V00</b><small>Estampagem · OP20</small></td><td>PR004 · OP20</td><td><b>v7</b></td><td>Passo do alimentador</td><td>Miguel Torres</td><td>08/09/2026 · 16:05</td><td>Rui Martins</td><td><span class="tag attention">A aguardar validação</span></td><td><button class="btn primary small validate-parameter">Validar</button></td></tr>
+          <tr><td><b>EBPIA14V00</b><small>Estampagem · OP20</small></td><td>PR004 · OP20</td><td><b>v5</b></td><td>Curso da prensa</td><td>Ana Ribeiro</td><td>09/09/2026 · 09:41</td><td>Rui Martins</td><td><span class="tag attention">A aguardar validação</span></td><td><button class="btn primary small validate-parameter">Validar</button></td></tr>
+          <tr><td><b>EBPZA02V00</b><small>Soldadura · OP40</small></td><td>SW012 · OP40</td><td><b>v3</b></td><td>Tempo e corrente</td><td>Paulo Sousa</td><td>01/09/2026 · 11:18</td><td>Rui Martins</td><td><span class="tag error">Rejeitada</span></td><td><button class="text-btn view-parameter">Ver motivo →</button></td></tr>
+        </tbody></table></div>
+      </section>
+    </section>
+
     <section id="sap" class="view">
       <div class="page-head"><div><span class="eyebrow">FILA DE TRABALHO IT</span><h1>Pedidos SAP</h1><p>Todas as criações e alterações submetidas através da Planificação Avançada.</p></div><button class="btn secondary">Exportar lista</button></div>
       <div class="kpis"><article><span class="status-dot orange"></span><div><small>A aguardar IT</small><strong>3</strong></div></article><article><span class="status-dot blue"></span><div><small>Em tratamento</small><strong>2</strong></div></article><article><span class="status-dot red"></span><div><small>Devolvidos</small><strong>1</strong></div></article><article><span class="status-dot green"></span><div><small>Concluídos este mês</small><strong>18</strong></div></article></div>
@@ -191,7 +257,7 @@
 
     <section id="master" class="view">
       <div class="page-head"><div><span class="eyebrow">ADMINISTRAÇÃO</span><h1>Dados Mestre</h1><p>Configuração central de clientes, projetos, pessoas, funções e notificações.</p></div><button class="btn primary">＋ Adicionar registo</button></div>
-      <div class="master-grid"><article class="panel master-card"><i>▦</i><div><h3>Clientes</h3><p>Construtores, unidades e contactos.</p><strong>12 registos</strong></div><button>→</button></article><article class="panel master-card"><i>◇</i><div><h3>Projetos</h3><p>Programas, veículos e estados.</p><strong>42 registos ativos</strong></div><button>→</button></article><article class="panel master-card"><i>♙</i><div><h3>Pessoas</h3><p>Utilizadores, emails e departamentos.</p><strong>86 utilizadores</strong></div><button>→</button></article><article class="panel master-card"><i>⚑</i><div><h3>Funções de projeto</h3><p>As 14 responsabilidades da equipa.</p><strong>14 funções</strong></div><button>→</button></article><article class="panel master-card"><i>✉</i><div><h3>Notificações</h3><p>Listas de distribuição e modelos de email.</p><strong>6 regras ativas</strong></div><button>→</button></article><article class="panel master-card"><i>⌾</i><div><h3>Permissões</h3><p>Perfis e direitos de edição.</p><strong>6 perfis</strong></div><button>→</button></article></div>
+      <div class="master-grid"><article class="panel master-card"><i>▦</i><div><h3>Clientes</h3><p>Construtores, unidades e contactos.</p><strong>12 registos</strong></div><button>→</button></article><article class="panel master-card"><i>◇</i><div><h3>Projetos</h3><p>Programas, veículos e estados.</p><strong>42 registos ativos</strong></div><button>→</button></article><article class="panel master-card"><i>♙</i><div><h3>Pessoas</h3><p>Utilizadores, emails e departamentos.</p><strong>86 utilizadores</strong></div><button>→</button></article><article class="panel master-card"><i>⚑</i><div><h3>Funções de projeto</h3><p>As 14 responsabilidades da equipa.</p><strong>14 funções</strong></div><button>→</button></article><article class="panel master-card"><i>✉</i><div><h3>Notificações</h3><p>Listas de distribuição e modelos de email.</p><strong>6 regras ativas</strong></div><button>→</button></article><article class="panel master-card"><i>⌾</i><div><h3>Permissões</h3><p>Perfis, direitos de edição e responsáveis de validação.</p><strong>Gama de Parâmetros · Rui Martins</strong></div><button>→</button></article></div>
     </section>
   </main>
 

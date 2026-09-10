@@ -17,6 +17,59 @@
   margin-top: 16px;
 }
 
+/* Identidade corporativa: uma única superfície branca, sem caixa no logótipo. */
+.sidebar .brand {
+  display: grid;
+  grid-template-columns: 98px minmax(0, 1fr);
+  gap: 11px;
+  align-items: center;
+  width: 100%;
+  min-height: 68px;
+  margin: 0 0 22px;
+  padding: 11px 12px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,.72);
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 8px 22px rgba(2,20,39,.18);
+  color: var(--navy);
+}
+
+.sidebar .brand img {
+  display: block;
+  width: 98px;
+  height: auto;
+  max-width: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  object-fit: contain;
+}
+
+.sidebar .brand-copy {
+  min-width: 0;
+  padding-left: 11px;
+  border-left: 1px solid #d9e2ea;
+}
+
+.sidebar .brand-copy strong {
+  display: block;
+  color: var(--navy);
+  font-size: 15px;
+  line-height: 1.15;
+  letter-spacing: -.25px;
+  white-space: nowrap;
+}
+
+.sidebar .brand-copy span {
+  display: block;
+  margin-top: 4px;
+  color: #687d90;
+  font-size: 11px;
+  line-height: 1.2;
+}
+
 /* Limites defensivos para evitar dimensões naturais durante atualizações em cache. */
 .parameter-sheet .sheet-title > img {
   display: block !important;

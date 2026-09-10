@@ -2,6 +2,8 @@
 
 Mockup navegável para demonstração do fluxo centralizado de informação do produto.
 
+O cabeçalho lateral utiliza uma superfície branca única para respeitar a aplicação corporativa do logótipo Gestamp, com “Product Hub” numa só linha.
+
 ## Conteúdo
 
 - Planificação Avançada numa página única;

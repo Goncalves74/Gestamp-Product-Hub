@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="description" content="Mockup do Gestamp Product Hub — gestão centralizada da Planificação Avançada, Qualidade, Logística, Produção e pedidos SAP.">
   <title>Gestamp Product Hub</title>
-  <link rel="stylesheet" href="styles.css?v=8">
-  <link rel="stylesheet" href="claims.css?v=8">
+  <link rel="stylesheet" href="styles.css?v=9">
+  <link rel="stylesheet" href="claims.css?v=9">
 </head>
 <body>
   <aside class="sidebar" id="sidebar">
@@ -37,6 +37,14 @@
         <div class="submenu">
           <button class="subnav" data-view="parameters" data-area="production">Gama de Parâmetros</button>
           <button class="subnav" data-view="parametersManagement" data-area="production">Gestão Gama de Parâmetros</button>
+        </div>
+      </div>
+      <button class="nav-item" data-view="rework"><span>↺</span> Zona de Retrabalho</button>
+      <div class="nav-group tests-nav">
+        <button class="nav-item tests-main" data-view="destructiveTests"><span>⌁</span> Ensaios Destrutivos <i>⌄</i></button>
+        <div class="submenu">
+          <button class="subnav" data-view="destructiveTests" data-area="tests">Registo de Ensaios</button>
+          <button class="subnav" data-view="testStandards" data-area="tests">Valores de Referência</button>
         </div>
       </div>
       <button class="nav-item" data-view="sap"><span>⇄</span> Pedidos SAP <em>3</em></button>
@@ -249,6 +257,58 @@
       </section>
     </section>
 
+    <section id="rework" class="view operations-view">
+      <div class="page-head"><div><span class="eyebrow">PRODUÇÃO · CONTROLO DE PEÇAS</span><h1>Zona de Retrabalho</h1><p>Registo de classificações, recuperação e destino das peças não conformes ou duvidosas.</p></div><div class="mode-actions"><button class="btn secondary" id="clearRework">Limpar</button><button class="btn primary" id="saveRework">Arquivar registo</button></div></div>
+      <section class="operation-summary panel"><div><span class="status-dot orange"></span><span><small>Registo</small><strong>ZR-2026-0187</strong></span></div><div><small>Estado</small><strong>Em classificação</strong></div><div><small>Operário</small><strong id="reworkOperatorSummary">Carlos Silva</strong></div><div><small>Data</small><strong>10/09/2026 · 08:24</strong></div></section>
+      <form class="panel operational-form" id="reworkForm">
+        <div class="operation-identification">
+          <div class="form-section"><div class="section-title"><span>01</span><div><h2>Identificação e rastreabilidade</h2><p>Leia preferencialmente as etiquetas com o leitor de código de barras.</p></div></div><div class="form-grid four">
+            <label class="required-field">Referência *<select id="reworkReference" required><option value="EBPIA13V00">EBPIA13V00</option><option value="EBPIA14V00">EBPIA14V00</option><option value="EBPZA02V00">EBPZA02V00</option></select></label><label>Designação<input id="reworkDesignation" readonly></label><label>Projeto<input id="reworkProject" readonly></label><label>Cliente<input id="reworkClient" readonly></label>
+            <label class="scan-field">Etiqueta SAP de origem<input id="originLabel" value="HU-GLP-260910-00851"><button type="button" class="scan-button">▥ Ler código</button></label><label class="scan-field">Etiqueta SAP de destino<input id="destinationLabel" value="HU-REW-260910-00122"><button type="button" class="scan-button">▥ Ler código</button></label><label>Operação<select><option>OP20 · Estampagem</option><option>OP40 · Soldadura</option><option>OP60 · Controlo</option></select></label><label>Operário<select id="reworkOperator"><option>Carlos Silva</option><option>Ana Costa</option><option>João Pereira</option></select></label>
+            <label>Data e hora<input type="datetime-local" value="2026-09-10T08:24"></label><label class="required-field">Peças vistas *<input id="piecesInspected" type="number" min="1" value="120" required></label><label>Posto<input value="Zona Retrabalho 01" readonly></label><label>Turno<input value="A" readonly></label>
+          </div></div>
+          <aside class="operation-card"><img src="product_real.png" alt="Peça associada à classificação"><span class="tag attention">Em classificação</span><h3 id="reworkPartTitle">EBPIA13V00 · Bracket LH</h3><p>Cada defeito diferente deve ser registado numa linha própria.</p><div><small>Total classificado</small><strong id="classifiedTotal">24 / 120</strong></div></aside>
+        </div>
+        <div class="form-section"><div class="section-title"><span>02</span><div><h2>Classificação e recuperação</h2><p>Distribua as quantidades entre sucata e peças recuperadas.</p></div></div><div class="table-wrap"><table class="entry-table"><thead><tr><th>Defeito</th><th>Quantidade</th><th>Sucata</th><th>Recuperadas</th><th>Observações</th><th></th></tr></thead><tbody id="reworkRows">
+          <tr><td><select><option>Fissuras</option><option>Falta de porcas</option><option>Geometria</option><option>Rebarba</option><option>Soldadura NOK</option></select></td><td><input class="rework-qty" type="number" min="1" value="18"></td><td><input type="number" min="0" value="3"></td><td><input type="number" min="0" value="15"></td><td><input value="Retrabalho dimensional"></td><td><button type="button" class="row-remove" aria-label="Eliminar linha">×</button></td></tr>
+          <tr><td><select><option>Falta de porcas</option><option>Fissuras</option><option>Geometria</option><option>Rebarba</option><option>Soldadura NOK</option></select></td><td><input class="rework-qty" type="number" min="1" value="6"></td><td><input type="number" min="0" value="0"></td><td><input type="number" min="0" value="6"></td><td><input value="Porcas repostas e controladas"></td><td><button type="button" class="row-remove" aria-label="Eliminar linha">×</button></td></tr>
+        </tbody></table></div><button type="button" class="btn ghost add-row" id="addReworkRow">＋ Adicionar defeito</button></div>
+        <div class="form-bottom"><span>O total por defeito não pode ultrapassar as peças vistas.</span><strong id="reworkBalance">96 peças sem defeito</strong><button type="submit" class="btn primary">Arquivar registo</button></div>
+      </form>
+    </section>
+
+    <section id="destructiveTests" class="view operations-view">
+      <div class="page-head"><div><span class="eyebrow">QUALIDADE · CONTROLO DE PROCESSO</span><h1>Ensaios Destrutivos</h1><p>Registo dos resultados de tração e torção realizados pelos operadores.</p></div><div class="mode-actions"><button class="btn secondary" id="clearTest">Novo ensaio</button><button class="btn primary" id="saveTest">Guardar resultados</button></div></div>
+      <section class="test-header panel"><div><small>N.º de ensaio</small><strong id="testNumber">ED-2026-00482</strong></div><label>Referência<select id="testReference"><option value="EBPIA13V00">EBPIA13V00</option><option value="EBPIA14V00">EBPIA14V00</option><option value="EBPZA02V00">EBPZA02V00</option></select></label><div><small>Referência de ensaio</small><strong id="testStandardRef">ET-CX735-020</strong></div><div><small>Versão</small><strong id="testVersion">4 · 14/04/2025</strong></div><span class="tag success">Parâmetros vigentes</span></section>
+      <div class="tests-layout">
+        <div class="tests-main">
+          <section class="panel test-block"><div class="section-head"><div><span class="section-no">01</span><div><h2>Ensaios de tração</h2><p>Obrigatório preencher operador, tipo de controlo e Valor 1.</p></div></div><span class="tag info">Mínimo 4,5 kN</span></div>
+            <div class="test-specs"><article><small>Tubo 1</small><strong>21</strong></article><article><small>Punção 1</small><strong>A</strong></article><article><small>Valor mínimo 1</small><strong>4,5 kN</strong></article><article><small>Tubo 2</small><strong>—</strong></article><article><small>Punção 2</small><strong>—</strong></article><article><small>Valor mínimo 2</small><strong>—</strong></article></div>
+            <div class="table-wrap"><table class="entry-table test-entry"><thead><tr><th>Operário</th><th>Tipo de controlo</th><th>Data e hora</th><th>Valor 1 (kN)</th><th>Valor 2 (kN)</th><th>Resultado</th></tr></thead><tbody><tr><td><select><option>Carlos Silva</option><option>Ana Costa</option></select></td><td><select><option>Arranque</option><option>Frequência</option><option>Após paragem</option></select></td><td><input type="datetime-local" value="2026-09-10T08:31"></td><td><input class="traction-value" type="number" step="0.1" value="5.2"></td><td><input type="number" step="0.1" value="0"></td><td><span class="tag success traction-result">Conforme</span></td></tr></tbody></table></div>
+          </section>
+          <section class="panel test-block"><div class="section-head"><div><span class="section-no">02</span><div><h2>Ensaios de torção</h2><p>Registo sequencial dos pontos definidos na referência de ensaio.</p></div></div><span class="tag info">Mínimo 18 Nm</span></div>
+            <div class="test-specs torque"><article><small>Boca</small><strong>17 mm</strong></article><article><small>Valor mínimo</small><strong>18 Nm</strong></article><article><small>Pontos de controlo</small><strong>2</strong></article></div>
+            <div class="table-wrap"><table class="entry-table test-entry"><thead><tr><th>Operário</th><th>Tipo de controlo</th><th>Data e hora</th><th>Valor 1</th><th>Valor 2</th><th>Valor 3</th><th>Valor 4</th><th>Resultado</th></tr></thead><tbody><tr><td><select><option>Carlos Silva</option><option>Ana Costa</option></select></td><td><select><option>Arranque</option><option>Frequência</option></select></td><td><input type="datetime-local" value="2026-09-10T08:36"></td><td><input class="torque-value" type="number" step="0.1" value="21.4"></td><td><input type="number" step="0.1" value="20.8"></td><td><input type="number" step="0.1" value="0"></td><td><input type="number" step="0.1" value="0"></td><td><span class="tag success torque-result">Conforme</span></td></tr></tbody></table></div>
+          </section>
+        </div>
+        <aside class="panel test-visual"><div class="inspection-image"><img src="product_real.png" alt="Peça e ordem dos pontos de ensaio"><b class="point one">1</b><b class="point two">2</b></div><h3 id="testPartTitle">EBPIA13V00 · Bracket LH</h3><p><b>Respeitar a ordem numérica</b> apresentada na imagem para todos os ensaios.</p><dl><div><dt>Projeto</dt><dd id="testProject">CX735</dd></div><div><dt>Cliente</dt><dd id="testClient">Ford</dd></div><div><dt>Posto</dt><dd>Laboratório UAP3</dd></div><div><dt>Frequência</dt><dd>1 por turno</dd></div></dl></aside>
+      </div>
+    </section>
+
+    <section id="testStandards" class="view">
+      <div class="page-head"><div><span class="eyebrow">DADOS MESTRE · PERMISSÃO CONTROLADA</span><h1>Valores de Referência dos Ensaios</h1><p>Configuração dos mínimos, ferramentas e pontos de controlo aplicáveis a cada referência.</p></div><div class="mode-actions"><button class="btn secondary" id="testStandardHistory">Ver histórico</button><button class="btn primary" id="editTestStandards">Editar valores</button></div></div>
+      <section class="permission-banner panel"><div><span class="status-dot green"></span><div><strong>Permissão validada</strong><small>Perfil: Administrador de Ensaios · alterações totalmente auditadas</small></div></div><div><small>Responsável atual</small><strong>Rui Martins</strong></div><div><small>Versão vigente</small><strong id="standardVersion">4</strong></div><div><small>Última modificação</small><strong id="standardDate">14/04/2025</strong></div></section>
+      <section class="panel standards-panel"><div class="standards-heading"><div><h2>ET-CX735-020 · EBPIA13V00</h2><p>Bracket LH · CX735 · Ford</p></div><span class="tag success" id="standardStatus">Vigente</span></div>
+        <div class="standards-grid">
+          <div><h3>Tração</h3><div class="form-grid three"><label>Tubo 1<input class="standard-input" value="21" readonly></label><label>Punção 1<input class="standard-input" value="A" readonly></label><label>Valor mínimo 1 (kN)<input class="standard-input" type="number" step="0.1" value="4.5" readonly></label><label>Tubo 2<input class="standard-input" value="—" readonly></label><label>Punção 2<input class="standard-input" value="—" readonly></label><label>Valor mínimo 2 (kN)<input class="standard-input" value="—" readonly></label></div></div>
+          <div><h3>Torção</h3><div class="form-grid three"><label>Boca<input class="standard-input" value="17 mm" readonly></label><label>Valor mínimo (Nm)<input class="standard-input" type="number" step="0.1" value="18" readonly></label><label>N.º de pontos<input class="standard-input" type="number" value="2" readonly></label><label>Tipo de controlo<input class="standard-input" value="Destrutivo" readonly></label><label>Frequência<input class="standard-input" value="1 por turno" readonly></label><label>Posto<input class="standard-input" value="Laboratório UAP3" readonly></label></div></div>
+        </div>
+        <label class="wide-label">Instruções para o operador<textarea class="standard-input" rows="3" readonly>Realizar os ensaios pela ordem numérica da fotografia. Registar zero quando a peça não disponha do ponto indicado.</textarea></label>
+        <div class="form-bottom"><span>Ao guardar, a versão é incrementada e o histórico preserva os valores anteriores.</span><button class="btn secondary" id="cancelTestStandards" hidden>Cancelar</button><button class="btn primary" id="saveTestStandards" hidden>Guardar nova versão</button></div>
+      </section>
+      <section class="panel standards-history" id="standardsHistory" hidden><div class="section-head"><div><h2>Histórico de versões</h2><p>Rastreabilidade dos valores de ensaio.</p></div></div><div class="table-wrap"><table><thead><tr><th>Versão</th><th>Data</th><th>Modificado por</th><th>Alteração</th><th>Estado</th></tr></thead><tbody id="standardHistoryRows"><tr><td><b>v4</b></td><td>14/04/2025</td><td>Rui Martins</td><td>Valor mínimo de tração atualizado para 4,5 kN</td><td><span class="tag success">Vigente</span></td></tr><tr><td><b>v3</b></td><td>08/01/2025</td><td>Ana Ribeiro</td><td>Nova referência de ensaio</td><td><span class="tag neutral">Substituída</span></td></tr></tbody></table></div></section>
+    </section>
+
     <section id="sap" class="view">
       <div class="page-head"><div><span class="eyebrow">FILA DE TRABALHO IT</span><h1>Pedidos SAP</h1><p>Todas as criações e alterações submetidas através da Planificação Avançada.</p></div><button class="btn secondary">Exportar lista</button></div>
       <div class="kpis"><article><span class="status-dot orange"></span><div><small>A aguardar IT</small><strong>3</strong></div></article><article><span class="status-dot blue"></span><div><small>Em tratamento</small><strong>2</strong></div></article><article><span class="status-dot red"></span><div><small>Devolvidos</small><strong>1</strong></div></article><article><span class="status-dot green"></span><div><small>Concluídos este mês</small><strong>18</strong></div></article></div>
@@ -257,7 +317,7 @@
 
     <section id="master" class="view">
       <div class="page-head"><div><span class="eyebrow">ADMINISTRAÇÃO</span><h1>Dados Mestre</h1><p>Configuração central de clientes, projetos, pessoas, funções e notificações.</p></div><button class="btn primary">＋ Adicionar registo</button></div>
-      <div class="master-grid"><article class="panel master-card"><i>▦</i><div><h3>Clientes</h3><p>Construtores, unidades e contactos.</p><strong>12 registos</strong></div><button>→</button></article><article class="panel master-card"><i>◇</i><div><h3>Projetos</h3><p>Programas, veículos e estados.</p><strong>42 registos ativos</strong></div><button>→</button></article><article class="panel master-card"><i>♙</i><div><h3>Pessoas</h3><p>Utilizadores, emails e departamentos.</p><strong>86 utilizadores</strong></div><button>→</button></article><article class="panel master-card"><i>⚑</i><div><h3>Funções de projeto</h3><p>As 14 responsabilidades da equipa.</p><strong>14 funções</strong></div><button>→</button></article><article class="panel master-card"><i>✉</i><div><h3>Notificações</h3><p>Listas de distribuição e modelos de email.</p><strong>6 regras ativas</strong></div><button>→</button></article><article class="panel master-card"><i>⌾</i><div><h3>Permissões</h3><p>Perfis, direitos de edição e responsáveis de validação.</p><strong>Gama de Parâmetros · Rui Martins</strong></div><button>→</button></article></div>
+      <div class="master-grid"><article class="panel master-card"><i>▦</i><div><h3>Clientes</h3><p>Construtores, unidades e contactos.</p><strong>12 registos</strong></div><button>→</button></article><article class="panel master-card"><i>◇</i><div><h3>Projetos</h3><p>Programas, veículos e estados.</p><strong>42 registos ativos</strong></div><button>→</button></article><article class="panel master-card"><i>♙</i><div><h3>Pessoas</h3><p>Utilizadores, emails e departamentos.</p><strong>86 utilizadores</strong></div><button>→</button></article><article class="panel master-card"><i>⚑</i><div><h3>Funções de projeto</h3><p>As 14 responsabilidades da equipa.</p><strong>14 funções</strong></div><button>→</button></article><article class="panel master-card"><i>✉</i><div><h3>Notificações</h3><p>Listas de distribuição e modelos de email.</p><strong>6 regras ativas</strong></div><button>→</button></article><article class="panel master-card"><i>⌾</i><div><h3>Permissões</h3><p>Perfis, direitos de edição e responsáveis de validação.</p><strong>Gamas e Ensaios · Rui Martins</strong></div><button>→</button></article></div>
     </section>
   </main>
 
@@ -269,6 +329,6 @@
 
   <div class="toast" id="toast" role="status"></div>
   <div class="modal" id="modal" aria-hidden="true"><div class="modal-card"><button class="modal-close">×</button><span class="eyebrow">DEMONSTRAÇÃO</span><h2 id="modalTitle">Criar nova peça</h2><p id="modalText">Este fluxo inicia uma nova Planificação Avançada.</p><div class="modal-options" id="modalOptions"></div><div class="modal-actions"><button class="btn secondary modal-close-action">Cancelar</button><button class="btn primary modal-confirm">Continuar</button></div></div></div>
-  <script src="app.js?v=7"></script>
+  <script src="app.js?v=9"></script>
 </body>
 </html>

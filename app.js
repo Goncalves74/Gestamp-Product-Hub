@@ -12,7 +12,7 @@ let activeDepartment='quality';
 function showView(id){
   views.forEach(v=>v.classList.toggle('active',v.id===id));
   const shared=['complaints','claimsManagement'];
-  navItems.forEach(n=>{const departmentActive=(n.classList.contains('quality-main')&&activeDepartment==='quality'&&shared.includes(id))||(n.classList.contains('logistics-main')&&activeDepartment==='logistics'&&shared.includes(id))||(n.classList.contains('production-main')&&id==='parametersManagement');n.classList.toggle('active',n.dataset.view===id||departmentActive)});
+  navItems.forEach(n=>{const departmentActive=(n.classList.contains('quality-main')&&activeDepartment==='quality'&&shared.includes(id))||(n.classList.contains('logistics-main')&&activeDepartment==='logistics'&&shared.includes(id))||(n.classList.contains('production-main')&&id==='parametersManagement')||(n.classList.contains('tests-main')&&id==='testStandards');n.classList.toggle('active',n.dataset.view===id||departmentActive)});
   subNavItems.forEach(n=>n.classList.toggle('active',n.dataset.view===id&&(!shared.includes(id)||n.dataset.area===activeDepartment)));
   window.scrollTo({top:0,behavior:'smooth'});document.getElementById('sidebar').classList.remove('open')
 }
@@ -144,5 +144,40 @@ document.getElementById('printParameters').addEventListener('click',()=>{
 });
 window.addEventListener('afterprint',()=>document.body.classList.remove('parameter-print-mode'));
 document.getElementById('parameterSearch').addEventListener('input',event=>{const query=event.currentTarget.value.toLowerCase();document.querySelectorAll('#parameterHistoryRows tr').forEach(row=>row.style.display=row.textContent.toLowerCase().includes(query)?'':'none')});
+
+const reworkReference=document.getElementById('reworkReference');
+const reworkRows=document.getElementById('reworkRows');
+function populateReworkPart(){const part=partCatalog[reworkReference.value];document.getElementById('reworkDesignation').value=part.designation;document.getElementById('reworkProject').value=part.project;document.getElementById('reworkClient').value=part.client;document.getElementById('reworkPartTitle').textContent=`${reworkReference.value} · ${part.designation}`}
+function updateReworkTotals(){const inspected=Number(document.getElementById('piecesInspected').value)||0;const classified=[...reworkRows.querySelectorAll('.rework-qty')].reduce((sum,input)=>sum+(Number(input.value)||0),0);document.getElementById('classifiedTotal').textContent=`${classified} / ${inspected}`;const balance=inspected-classified;const output=document.getElementById('reworkBalance');output.textContent=balance>=0?`${balance} peças sem defeito`:`Excesso de ${Math.abs(balance)} peças`;output.classList.toggle('error-text',balance<0)}
+reworkReference.addEventListener('change',populateReworkPart);
+document.getElementById('piecesInspected').addEventListener('input',updateReworkTotals);
+reworkRows.addEventListener('input',updateReworkTotals);
+reworkRows.addEventListener('click',event=>{if(event.target.classList.contains('row-remove')){event.target.closest('tr').remove();updateReworkTotals()}});
+document.getElementById('addReworkRow').addEventListener('click',()=>{reworkRows.insertAdjacentHTML('beforeend','<tr><td><select><option>Geometria</option><option>Fissuras</option><option>Falta de porcas</option><option>Rebarba</option><option>Soldadura NOK</option></select></td><td><input class="rework-qty" type="number" min="1" value="1"></td><td><input type="number" min="0" value="0"></td><td><input type="number" min="0" value="1"></td><td><input placeholder="Observações"></td><td><button type="button" class="row-remove" aria-label="Eliminar linha">×</button></td></tr>');updateReworkTotals()});
+document.querySelectorAll('.scan-button').forEach(button=>button.addEventListener('click',()=>showToast('Leitor de código de barras pronto.')));
+document.getElementById('reworkOperator').addEventListener('change',event=>document.getElementById('reworkOperatorSummary').textContent=event.target.value);
+document.getElementById('reworkForm').addEventListener('submit',event=>{event.preventDefault();const inspected=Number(document.getElementById('piecesInspected').value)||0;const classified=[...reworkRows.querySelectorAll('.rework-qty')].reduce((sum,input)=>sum+(Number(input.value)||0),0);if(classified>inspected){showToast('A quantidade classificada ultrapassa as peças vistas.');return}showToast('Registo de classificação e recuperação arquivado.')});
+document.getElementById('saveRework').addEventListener('click',()=>document.getElementById('reworkForm').requestSubmit());
+document.getElementById('clearRework').addEventListener('click',()=>{document.getElementById('reworkForm').reset();populateReworkPart();updateReworkTotals();showToast('Formulário preparado para um novo registo.')});
+
+const testDefinitions={EBPIA13V00:{standard:'ET-CX735-020',version:'4 · 14/04/2025'},EBPIA14V00:{standard:'ET-CX735-021',version:'3 · 08/01/2025'},EBPZA02V00:{standard:'ET-P24004-040',version:'2 · 22/06/2026'}};
+const testReference=document.getElementById('testReference');
+function populateTestPart(){const ref=testReference.value,part=partCatalog[ref],definition=testDefinitions[ref];document.getElementById('testStandardRef').textContent=definition.standard;document.getElementById('testVersion').textContent=definition.version;document.getElementById('testPartTitle').textContent=`${ref} · ${part.designation}`;document.getElementById('testProject').textContent=part.project;document.getElementById('testClient').textContent=part.client}
+function updateTestResult(input,minimum,resultSelector){const result=document.querySelector(resultSelector),conforming=(Number(input.value)||0)>=minimum;result.textContent=conforming?'Conforme':'Não conforme';result.className=`tag ${conforming?'success':'error'} ${resultSelector.slice(1)}`}
+testReference.addEventListener('change',populateTestPart);
+document.querySelector('.traction-value').addEventListener('input',event=>updateTestResult(event.target,4.5,'.traction-result'));
+document.querySelector('.torque-value').addEventListener('input',event=>updateTestResult(event.target,18,'.torque-result'));
+document.getElementById('saveTest').addEventListener('click',()=>showToast('Resultados guardados com data, operador e versão dos valores de referência.'));
+document.getElementById('clearTest').addEventListener('click',()=>{document.querySelectorAll('.test-entry input[type="number"]').forEach(input=>input.value='');document.getElementById('testNumber').textContent='ED-2026-00483';document.querySelector('.traction-result').className='tag neutral traction-result';document.querySelector('.traction-result').textContent='Aguardando';document.querySelector('.torque-result').className='tag neutral torque-result';document.querySelector('.torque-result').textContent='Aguardando';showToast('Novo ensaio preparado.')});
+
+const standardInputs=[...document.querySelectorAll('.standard-input')];
+const editTestStandards=document.getElementById('editTestStandards'),saveTestStandards=document.getElementById('saveTestStandards'),cancelTestStandards=document.getElementById('cancelTestStandards');
+let standardSnapshot=[];
+function setStandardEditMode(editing){standardInputs.forEach(input=>input.readOnly=!editing);editTestStandards.hidden=editing;saveTestStandards.hidden=!editing;cancelTestStandards.hidden=!editing}
+editTestStandards.addEventListener('click',()=>{standardSnapshot=standardInputs.map(input=>input.value);setStandardEditMode(true);standardInputs[0].focus();showToast('Edição autorizada para o perfil Administrador de Ensaios.')});
+cancelTestStandards.addEventListener('click',()=>{standardInputs.forEach((input,index)=>input.value=standardSnapshot[index]);setStandardEditMode(false);showToast('Alterações canceladas.')});
+saveTestStandards.addEventListener('click',()=>{const changed=standardInputs.reduce((total,input,index)=>total+(input.value!==standardSnapshot[index]?1:0),0);if(!changed){showToast('Não existem valores alterados.');return}const version=Number(document.getElementById('standardVersion').textContent)+1;document.getElementById('standardVersion').textContent=version;document.getElementById('standardDate').textContent='10/09/2026';document.getElementById('standardStatus').textContent='Vigente';document.getElementById('standardHistoryRows').insertAdjacentHTML('afterbegin',`<tr><td><b>v${version}</b></td><td>10/09/2026</td><td>Rui Martins</td><td>${changed} valor${changed>1?'es':''} alterado${changed>1?'s':''}</td><td><span class="tag success">Vigente</span></td></tr>`);setStandardEditMode(false);showToast(`Versão ${version} criada e aplicada aos novos ensaios.`)});
+document.getElementById('testStandardHistory').addEventListener('click',()=>{const history=document.getElementById('standardsHistory');history.hidden=!history.hidden;if(!history.hidden)history.scrollIntoView({behavior:'smooth'})});
+
 bindParameterActions();updatePendingParameterCount();
-setComplaintArea('quality');populatePart();
+setComplaintArea('quality');populatePart();populateReworkPart();updateReworkTotals();populateTestPart();

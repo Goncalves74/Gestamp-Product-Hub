@@ -32,6 +32,9 @@ O cabeçalho lateral utiliza uma superfície branca única para respeitar a apli
 - Edição controlada dos parâmetros com incremento automático de versão e envio para validação;
 - Histórico de alterações com pesquisa, autor, data, validador e estado;
 - Responsável de validação demonstrativo configurado em Dados Mestre > Permissões;
+- Zona de Retrabalho com leitura de etiquetas, identificação automática da peça e distribuição das quantidades por defeito, sucata e recuperação;
+- Ensaios Destrutivos com registo de tração e torção, indicação automática de conformidade e rastreabilidade da versão utilizada;
+- Valores de Referência dos Ensaios com edição restrita por perfil, incremento de versão e histórico das alterações;
 - Pedidos SAP e Dados Mestre.
 
 Abra `index.html` num navegador ou publique a pasta pela raiz no GitHub Pages.

@@ -9,15 +9,19 @@ const modalOptions=document.getElementById('modalOptions');
 
 function showToast(message){toast.textContent=message;toast.classList.add('show');setTimeout(()=>toast.classList.remove('show'),2400)}
 let activeDepartment='quality';
+const productionViews=['parameters','parametersManagement','rework','destructiveTests','testStandards','productionDocumentation'];
 function showView(id){
   views.forEach(v=>v.classList.toggle('active',v.id===id));
   const shared=['complaints','claimsManagement'];
-  navItems.forEach(n=>{const departmentActive=(n.classList.contains('quality-main')&&activeDepartment==='quality'&&shared.includes(id))||(n.classList.contains('logistics-main')&&activeDepartment==='logistics'&&shared.includes(id))||(n.classList.contains('production-main')&&id==='parametersManagement')||(n.classList.contains('tests-main')&&id==='testStandards');n.classList.toggle('active',n.dataset.view===id||departmentActive)});
+  navItems.forEach(n=>{const departmentActive=(n.classList.contains('quality-main')&&activeDepartment==='quality'&&shared.includes(id))||(n.classList.contains('logistics-main')&&activeDepartment==='logistics'&&shared.includes(id))||(n.classList.contains('production-main')&&productionViews.includes(id));n.classList.toggle('active',n.dataset.view===id||departmentActive)});
   subNavItems.forEach(n=>n.classList.toggle('active',n.dataset.view===id&&(!shared.includes(id)||n.dataset.area===activeDepartment)));
   window.scrollTo({top:0,behavior:'smooth'});document.getElementById('sidebar').classList.remove('open')
 }
 navItems.forEach(item=>item.addEventListener('click',()=>{if(item.classList.contains('quality-main'))activeDepartment='quality';if(item.classList.contains('logistics-main'))activeDepartment='logistics';item.closest('.nav-group')?.classList.toggle('open');showView(item.dataset.view)}));
 subNavItems.forEach(item=>item.addEventListener('click',()=>{if(item.dataset.area==='quality'||item.dataset.area==='logistics'){activeDepartment=item.dataset.area;setComplaintArea(activeDepartment)}item.closest('.nav-group')?.classList.add('open');showView(item.dataset.view)}));
+function fitMenuLabels(){document.querySelectorAll('.nav-label,.subnav').forEach(label=>{const start=label.classList.contains('subnav')?12:13;let size=start;label.style.fontSize=`${size}px`;while(label.scrollWidth>label.clientWidth&&size>10){size-=.5;label.style.fontSize=`${size}px`}})}
+requestAnimationFrame(fitMenuLabels);
+window.addEventListener('resize',fitMenuLabels);
 document.getElementById('menu').addEventListener('click',()=>document.getElementById('sidebar').classList.toggle('open'));
 document.querySelectorAll('[data-target]').forEach(btn=>btn.addEventListener('click',()=>document.getElementById(btn.dataset.target)?.scrollIntoView({behavior:'smooth'})));
 
@@ -179,5 +183,66 @@ cancelTestStandards.addEventListener('click',()=>{standardInputs.forEach((input,
 saveTestStandards.addEventListener('click',()=>{const changed=standardInputs.reduce((total,input,index)=>total+(input.value!==standardSnapshot[index]?1:0),0);if(!changed){showToast('Não existem valores alterados.');return}const version=Number(document.getElementById('standardVersion').textContent)+1;document.getElementById('standardVersion').textContent=version;document.getElementById('standardDate').textContent='10/09/2026';document.getElementById('standardStatus').textContent='Vigente';document.getElementById('standardHistoryRows').insertAdjacentHTML('afterbegin',`<tr><td><b>v${version}</b></td><td>10/09/2026</td><td>Rui Martins</td><td>${changed} valor${changed>1?'es':''} alterado${changed>1?'s':''}</td><td><span class="tag success">Vigente</span></td></tr>`);setStandardEditMode(false);showToast(`Versão ${version} criada e aplicada aos novos ensaios.`)});
 document.getElementById('testStandardHistory').addEventListener('click',()=>{const history=document.getElementById('standardsHistory');history.hidden=!history.hidden;if(!history.hidden)history.scrollIntoView({behavior:'smooth'})});
 
+const productionDocumentForm=document.getElementById('productionDocumentForm');
+const productionDocumentRows=document.getElementById('productionDocumentRows');
+const productionDocumentationEmpty=document.getElementById('productionDocumentationEmpty');
+const productionDocumentationList=document.getElementById('productionDocumentationList');
+const productionDocumentStorageKey='gestamp-production-documents-v1';
+let productionDocuments=[];
+let editingProductionDocumentId=null;
+
+try{productionDocuments=JSON.parse(localStorage.getItem(productionDocumentStorageKey)||'[]')}catch(error){productionDocuments=[]}
+
+function escapeDocumentText(value){return String(value||'').replace(/[&<>"']/g,character=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[character]))}
+function persistProductionDocuments(){try{localStorage.setItem(productionDocumentStorageKey,JSON.stringify(productionDocuments))}catch(error){showToast('Não foi possível guardar localmente neste navegador.')}}
+function renderProductionDocuments(){
+  const query=document.getElementById('productionDocumentSearch').value.trim().toLowerCase();
+  const area=document.getElementById('productionDocumentAreaFilter').value;
+  const visible=productionDocuments.filter(documentLink=>(!area||documentLink.area===area)&&(!query||Object.values(documentLink).some(value=>String(value).toLowerCase().includes(query))));
+  productionDocumentRows.innerHTML=visible.map(documentLink=>`<tr><td><b>${escapeDocumentText(documentLink.name)}</b><small>Adicionado por António Gonçalves</small></td><td><span class="tag info">${escapeDocumentText(documentLink.area)}</span></td><td>${escapeDocumentText(documentLink.type)}</td><td>${escapeDocumentText(documentLink.revision)||'—'}</td><td>${escapeDocumentText(documentLink.description)||'—'}</td><td><a class="document-link" href="${escapeDocumentText(documentLink.url)}" target="_blank" rel="noopener noreferrer">Abrir documento ↗</a></td><td><div class="documentation-actions"><button type="button" data-edit-document="${documentLink.id}">Editar</button><button type="button" class="remove-document" data-remove-document="${documentLink.id}">Remover</button></div></td></tr>`).join('');
+  const hasDocuments=productionDocuments.length>0;
+  productionDocumentationEmpty.hidden=hasDocuments;
+  productionDocumentationList.hidden=!hasDocuments;
+  document.getElementById('productionDocumentCount').textContent=productionDocuments.length;
+  document.getElementById('productionDocumentDate').textContent=hasDocuments?productionDocuments[0].updated:'—';
+  if(hasDocuments&&!visible.length)productionDocumentRows.innerHTML='<tr><td colspan="7"><div class="table-summary">Nenhum documento corresponde aos filtros selecionados.</div></td></tr>';
+}
+function openProductionDocumentForm(documentLink=null){
+  editingProductionDocumentId=documentLink?.id||null;
+  document.getElementById('productionDocumentFormTitle').textContent=documentLink?'Editar ligação':'Adicionar ligação';
+  document.getElementById('productionDocumentName').value=documentLink?.name||'';
+  document.getElementById('productionDocumentArea').value=documentLink?.area||'Qualidade';
+  document.getElementById('productionDocumentType').value=documentLink?.type||'Plano';
+  document.getElementById('productionDocumentRevision').value=documentLink?.revision||'';
+  document.getElementById('productionDocumentUrl').value=documentLink?.url||'';
+  document.getElementById('productionDocumentDescription').value=documentLink?.description||'';
+  productionDocumentForm.hidden=false;
+  productionDocumentForm.scrollIntoView({behavior:'smooth',block:'start'});
+  setTimeout(()=>document.getElementById('productionDocumentName').focus(),250);
+}
+function closeProductionDocumentForm(){editingProductionDocumentId=null;productionDocumentForm.reset();productionDocumentForm.hidden=true}
+document.getElementById('addProductionDocument').addEventListener('click',()=>openProductionDocumentForm());
+document.getElementById('addFirstProductionDocument').addEventListener('click',()=>openProductionDocumentForm());
+document.getElementById('cancelProductionDocument').addEventListener('click',closeProductionDocumentForm);
+productionDocumentForm.addEventListener('submit',event=>{
+  event.preventDefault();
+  const rawUrl=document.getElementById('productionDocumentUrl').value.trim();
+  let safeUrl;
+  try{const parsed=new URL(rawUrl);if(!['http:','https:'].includes(parsed.protocol))throw new Error('protocol');safeUrl=parsed.href}catch(error){showToast('Introduza uma ligação válida iniciada por http:// ou https://.');return}
+  const updated=new Date().toLocaleDateString('pt-PT');
+  const wasEditing=Boolean(editingProductionDocumentId);
+  const documentLink={id:editingProductionDocumentId||Date.now(),name:document.getElementById('productionDocumentName').value.trim(),area:document.getElementById('productionDocumentArea').value,type:document.getElementById('productionDocumentType').value,revision:document.getElementById('productionDocumentRevision').value.trim(),url:safeUrl,description:document.getElementById('productionDocumentDescription').value.trim(),updated};
+  if(editingProductionDocumentId){productionDocuments=productionDocuments.map(item=>item.id===editingProductionDocumentId?documentLink:item)}else{productionDocuments.unshift(documentLink)}
+  persistProductionDocuments();renderProductionDocuments();closeProductionDocumentForm();showToast(wasEditing?'Ligação atualizada.':'Ligação adicionada à Documentação.');
+});
+productionDocumentRows.addEventListener('click',event=>{
+  const editButton=event.target.closest('[data-edit-document]');
+  const removeButton=event.target.closest('[data-remove-document]');
+  if(editButton){const documentLink=productionDocuments.find(item=>String(item.id)===editButton.dataset.editDocument);if(documentLink)openProductionDocumentForm(documentLink)}
+  if(removeButton&&window.confirm('Remover esta ligação da Documentação?')){productionDocuments=productionDocuments.filter(item=>String(item.id)!==removeButton.dataset.removeDocument);persistProductionDocuments();renderProductionDocuments();showToast('Ligação removida.')}
+});
+document.getElementById('productionDocumentSearch').addEventListener('input',renderProductionDocuments);
+document.getElementById('productionDocumentAreaFilter').addEventListener('change',renderProductionDocuments);
+
 bindParameterActions();updatePendingParameterCount();
-setComplaintArea('quality');populatePart();populateReworkPart();updateReworkTotals();populateTestPart();
+setComplaintArea('quality');populatePart();populateReworkPart();updateReworkTotals();populateTestPart();renderProductionDocuments();

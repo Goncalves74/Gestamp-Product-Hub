@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="description" content="Mockup do Gestamp Product Hub — gestão centralizada da Planificação Avançada, Qualidade, Logística, Produção e pedidos SAP.">
   <title>Gestamp Product Hub</title>
-  <link rel="stylesheet" href="styles.css?v=9">
-  <link rel="stylesheet" href="claims.css?v=9">
+  <link rel="stylesheet" href="styles.css?v=10">
+  <link rel="stylesheet" href="claims.css?v=10">
 </head>
 <body>
   <aside class="sidebar" id="sidebar">
@@ -15,9 +15,9 @@
       <div class="brand-copy"><strong>Product Hub</strong><span>Cerveira</span></div>
     </a>
     <nav>
-      <button class="nav-item active" data-view="pa"><span>▤</span> Planificação Avançada</button>
+      <button class="nav-item active" data-view="pa"><span class="nav-icon">▤</span><span class="nav-label">Planificação Avançada</span></button>
       <div class="nav-group quality-nav open">
-        <button class="nav-item quality-main" data-view="quality"><span>✓</span> Qualidade <i>⌄</i></button>
+        <button class="nav-item quality-main" data-view="quality"><span class="nav-icon">✓</span><span class="nav-label">Qualidade</span><i>⌄</i></button>
         <div class="submenu">
           <button class="subnav active" data-view="quality" data-area="quality">Dossier Produto</button>
           <button class="subnav" data-view="complaints" data-area="quality">Reclamações</button>
@@ -25,7 +25,7 @@
         </div>
       </div>
       <div class="nav-group logistics-nav">
-        <button class="nav-item logistics-main" data-view="logisticsDossier"><span>▣</span> Logística <i>⌄</i></button>
+        <button class="nav-item logistics-main" data-view="logisticsDossier"><span class="nav-icon">▣</span><span class="nav-label">Logística</span><i>⌄</i></button>
         <div class="submenu">
           <button class="subnav" data-view="logisticsDossier" data-area="logistics">Dossier Logístico</button>
           <button class="subnav" data-view="complaints" data-area="logistics">Reclamações Logísticas</button>
@@ -33,22 +33,18 @@
         </div>
       </div>
       <div class="nav-group production-nav">
-        <button class="nav-item production-main" data-view="parameters"><span>▦</span> Produção <i>⌄</i></button>
+        <button class="nav-item production-main" data-view="parameters"><span class="nav-icon">▦</span><span class="nav-label">Produção</span><i>⌄</i></button>
         <div class="submenu">
           <button class="subnav" data-view="parameters" data-area="production">Gama de Parâmetros</button>
           <button class="subnav" data-view="parametersManagement" data-area="production">Gestão Gama de Parâmetros</button>
+          <button class="subnav" data-view="rework" data-area="production">Zona de Retrabalho</button>
+          <button class="subnav" data-view="destructiveTests" data-area="production">Ensaios Destrutivos</button>
+          <button class="subnav" data-view="testStandards" data-area="production">Valores de Referência</button>
+          <button class="subnav" data-view="productionDocumentation" data-area="production">Documentação</button>
         </div>
       </div>
-      <button class="nav-item" data-view="rework"><span>↺</span> Zona de Retrabalho</button>
-      <div class="nav-group tests-nav">
-        <button class="nav-item tests-main" data-view="destructiveTests"><span>⌁</span> Ensaios Destrutivos <i>⌄</i></button>
-        <div class="submenu">
-          <button class="subnav" data-view="destructiveTests" data-area="tests">Registo de Ensaios</button>
-          <button class="subnav" data-view="testStandards" data-area="tests">Valores de Referência</button>
-        </div>
-      </div>
-      <button class="nav-item" data-view="sap"><span>⇄</span> Pedidos SAP <em>3</em></button>
-      <button class="nav-item" data-view="master"><span>⚙</span> Dados Mestre</button>
+      <button class="nav-item" data-view="sap"><span class="nav-icon">⇄</span><span class="nav-label">Pedidos SAP</span><em>3</em></button>
+      <button class="nav-item" data-view="master"><span class="nav-icon">⚙</span><span class="nav-label">Dados Mestre</span></button>
     </nav>
     <div class="sidebar-bottom">
       <div class="user-avatar">AG</div>
@@ -278,7 +274,7 @@
     </section>
 
     <section id="destructiveTests" class="view operations-view">
-      <div class="page-head"><div><span class="eyebrow">QUALIDADE · CONTROLO DE PROCESSO</span><h1>Ensaios Destrutivos</h1><p>Registo dos resultados de tração e torção realizados pelos operadores.</p></div><div class="mode-actions"><button class="btn secondary" id="clearTest">Novo ensaio</button><button class="btn primary" id="saveTest">Guardar resultados</button></div></div>
+      <div class="page-head"><div><span class="eyebrow">PRODUÇÃO · CONTROLO DE PROCESSO</span><h1>Ensaios Destrutivos</h1><p>Registo dos resultados de tração e torção realizados pelos operadores.</p></div><div class="mode-actions"><button class="btn secondary" id="clearTest">Novo ensaio</button><button class="btn primary" id="saveTest">Guardar resultados</button></div></div>
       <section class="test-header panel"><div><small>N.º de ensaio</small><strong id="testNumber">ED-2026-00482</strong></div><label>Referência<select id="testReference"><option value="EBPIA13V00">EBPIA13V00</option><option value="EBPIA14V00">EBPIA14V00</option><option value="EBPZA02V00">EBPZA02V00</option></select></label><div><small>Referência de ensaio</small><strong id="testStandardRef">ET-CX735-020</strong></div><div><small>Versão</small><strong id="testVersion">4 · 14/04/2025</strong></div><span class="tag success">Parâmetros vigentes</span></section>
       <div class="tests-layout">
         <div class="tests-main">
@@ -309,6 +305,33 @@
       <section class="panel standards-history" id="standardsHistory" hidden><div class="section-head"><div><h2>Histórico de versões</h2><p>Rastreabilidade dos valores de ensaio.</p></div></div><div class="table-wrap"><table><thead><tr><th>Versão</th><th>Data</th><th>Modificado por</th><th>Alteração</th><th>Estado</th></tr></thead><tbody id="standardHistoryRows"><tr><td><b>v4</b></td><td>14/04/2025</td><td>Rui Martins</td><td>Valor mínimo de tração atualizado para 4,5 kN</td><td><span class="tag success">Vigente</span></td></tr><tr><td><b>v3</b></td><td>08/01/2025</td><td>Ana Ribeiro</td><td>Nova referência de ensaio</td><td><span class="tag neutral">Substituída</span></td></tr></tbody></table></div></section>
     </section>
 
+    <section id="productionDocumentation" class="view documentation-view">
+      <div class="page-head"><div><span class="eyebrow">PRODUÇÃO · ACESSO DOCUMENTAL</span><h1>Documentação</h1><p>Ligações diretas para documentos já disponíveis nas áreas corporativas e nos repositórios externos.</p></div><button class="btn primary" id="addProductionDocument">＋ Adicionar ligação</button></div>
+      <section class="permission-banner panel documentation-permission"><div><span class="status-dot green"></span><div><strong>Gestão autorizada</strong><small>Perfil: Gestor de Documentação · definido em Dados Mestre</small></div></div><div><small>Documentos registados</small><strong id="productionDocumentCount">0</strong></div><div><small>Última atualização</small><strong id="productionDocumentDate">—</strong></div></section>
+
+      <form class="panel documentation-form" id="productionDocumentForm" hidden>
+        <div class="section-head"><div><span class="section-no">＋</span><div><h2 id="productionDocumentFormTitle">Adicionar ligação</h2><p>Registe o endereço do documento sem carregar uma segunda cópia para a aplicação.</p></div></div></div>
+        <div class="form-grid four">
+          <label>Nome do documento *<input id="productionDocumentName" required placeholder="Ex.: Plano de Controlo"></label>
+          <label>Área de origem *<select id="productionDocumentArea" required><option>Qualidade</option><option>Logística</option><option>Produção</option><option>Projeto</option><option>Engenharia</option></select></label>
+          <label>Tipo de documento<select id="productionDocumentType"><option>Plano</option><option>Instrução</option><option>Relatório</option><option>Desenho 2D / 3D</option><option>Especificação</option><option>Outro</option></select></label>
+          <label>Revisão<input id="productionDocumentRevision" placeholder="Ex.: Rev. 04"></label>
+        </div>
+        <label class="wide-label">Ligação para o documento *<input id="productionDocumentUrl" type="url" required placeholder="https://sharepoint.../"></label>
+        <label class="wide-label">Descrição<input id="productionDocumentDescription" placeholder="Breve indicação do conteúdo ou aplicação do documento"></label>
+        <div class="form-bottom"><span>O documento permanece no repositório de origem; a aplicação guarda apenas a ligação.</span><button type="button" class="btn secondary" id="cancelProductionDocument">Cancelar</button><button type="submit" class="btn primary">Guardar ligação</button></div>
+      </form>
+
+      <section class="panel documentation-empty" id="productionDocumentationEmpty">
+        <span>↗</span><h2>Sem documentos registados</h2><p>Adicione a primeira ligação para reunir aqui a documentação necessária à Produção.</p><button class="btn primary" id="addFirstProductionDocument">＋ Adicionar primeira ligação</button>
+      </section>
+
+      <section class="panel documentation-list" id="productionDocumentationList" hidden>
+        <div class="table-toolbar"><div class="global-search compact">⌕ <input id="productionDocumentSearch" placeholder="Pesquisar documento, área ou revisão…"></div><select id="productionDocumentAreaFilter"><option value="">Todas as áreas</option><option>Qualidade</option><option>Logística</option><option>Produção</option><option>Projeto</option><option>Engenharia</option></select></div>
+        <div class="table-wrap"><table><thead><tr><th>Documento</th><th>Área de origem</th><th>Tipo</th><th>Revisão</th><th>Descrição</th><th>Ligação</th><th></th></tr></thead><tbody id="productionDocumentRows"></tbody></table></div>
+      </section>
+    </section>
+
     <section id="sap" class="view">
       <div class="page-head"><div><span class="eyebrow">FILA DE TRABALHO IT</span><h1>Pedidos SAP</h1><p>Todas as criações e alterações submetidas através da Planificação Avançada.</p></div><button class="btn secondary">Exportar lista</button></div>
       <div class="kpis"><article><span class="status-dot orange"></span><div><small>A aguardar IT</small><strong>3</strong></div></article><article><span class="status-dot blue"></span><div><small>Em tratamento</small><strong>2</strong></div></article><article><span class="status-dot red"></span><div><small>Devolvidos</small><strong>1</strong></div></article><article><span class="status-dot green"></span><div><small>Concluídos este mês</small><strong>18</strong></div></article></div>
@@ -329,6 +352,6 @@
 
   <div class="toast" id="toast" role="status"></div>
   <div class="modal" id="modal" aria-hidden="true"><div class="modal-card"><button class="modal-close">×</button><span class="eyebrow">DEMONSTRAÇÃO</span><h2 id="modalTitle">Criar nova peça</h2><p id="modalText">Este fluxo inicia uma nova Planificação Avançada.</p><div class="modal-options" id="modalOptions"></div><div class="modal-actions"><button class="btn secondary modal-close-action">Cancelar</button><button class="btn primary modal-confirm">Continuar</button></div></div></div>
-  <script src="app.js?v=9"></script>
+  <script src="app.js?v=10"></script>
 </body>
 </html>

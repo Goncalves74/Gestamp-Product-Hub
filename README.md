@@ -26,7 +26,8 @@ O cabeçalho lateral utiliza uma superfície branca única para respeitar a apli
 - Relatório de reclamações preparado para impressão em A4 horizontal;
 - Campos adicionais do sistema Access incluídos no registo e tratamento: ID, quantidades implicada/devolvida, demérito, números interno e de rejeição, lote, defeito/subdefeito, veículo, planta, cargos, repetitividade, nível, piloto, UAP, posto, causa raiz, extra e turno;
 - Menus expansíveis que podem ser novamente contraídos;
-- Produção com os submenus Gama de Parâmetros e Gestão Gama de Parâmetros;
+- Produção com os submenus Gama de Parâmetros, Gestão Gama de Parâmetros, Zona de Retrabalho, Ensaios Destrutivos, Valores de Referência e Documentação;
+- Títulos do menu mantidos numa única linha, com ajuste automático do tamanho do texto;
 - Impressão da Gama de Parâmetros em A4 horizontal, com parâmetros, imagem, observações e controlo de versão;
 - Folha compacta de parâmetros de ferramenta/máquina, com imagem, embalagem, instruções e painel lateral de versão;
 - Edição controlada dos parâmetros com incremento automático de versão e envio para validação;
@@ -35,6 +36,7 @@ O cabeçalho lateral utiliza uma superfície branca única para respeitar a apli
 - Zona de Retrabalho com leitura de etiquetas, identificação automática da peça e distribuição das quantidades por defeito, sucata e recuperação;
 - Ensaios Destrutivos com registo de tração e torção, indicação automática de conformidade e rastreabilidade da versão utilizada;
 - Valores de Referência dos Ensaios com edição restrita por perfil, incremento de versão e histórico das alterações;
+- Página de Documentação de Produção inicialmente vazia, com adição, edição, remoção, pesquisa e filtragem de ligações para documentos externos;
 - Pedidos SAP e Dados Mestre.
 
 Abra `index.html` num navegador ou publique a pasta pela raiz no GitHub Pages.
